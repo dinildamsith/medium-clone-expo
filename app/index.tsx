@@ -85,11 +85,11 @@ export default function Index() {
                 {/* Already have an account section */}
                 <View style={{ flexDirection: 'column', alignItems: 'center', marginTop: 20 }}>
                     <Text style={{ marginRight: 5 }}>
-                        Already have an account?
+                        Don't have an account?
                     </Text>
                     <TouchableOpacity onPress={() => console.log('Navigate to Sign In')}>
                         <Text style={{ color: 'green', fontWeight: 'bold' }}>
-                            Sign In
+                            Sign Up
                         </Text>
                     </TouchableOpacity>
                 </View>
