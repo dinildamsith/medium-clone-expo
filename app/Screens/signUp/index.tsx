@@ -1,7 +1,15 @@
 import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import { Button } from 'react-native-paper';
+import {useRouter} from "expo-router";
 
 export default function Index() {
+
+    const router = useRouter(); // Initialize the router
+
+    const signInHandel = () => {
+        router.push("/")
+    }
+
     return (
         <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', padding: 20 }}>
             <View>
@@ -87,7 +95,7 @@ export default function Index() {
                     <Text style={{ marginRight: 5 }}>
                         Already have an account?
                     </Text>
-                    <TouchableOpacity onPress={() => console.log('Navigate to Sign In')}>
+                    <TouchableOpacity onPress={() => signInHandel()}>
                         <Text style={{ color: 'green', fontWeight: 'bold' }}>
                             Sign In
                         </Text>
