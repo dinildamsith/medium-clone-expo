@@ -52,7 +52,7 @@ export default function Index() {
                         style={{ width: 300 }}
                         onPress={() => console.log('Pressed')}
                     >
-                        Sign In With Google
+                        Sign Up With Google
                     </Button>
 
                     <Button
@@ -61,7 +61,7 @@ export default function Index() {
                         style={{ width: 300, marginTop: 10 }}
                         onPress={() => console.log('Pressed')}
                     >
-                        Sign In With Facebook
+                        Sign Up With Facebook
                     </Button>
                     <Button
                         icon="close"
@@ -69,7 +69,7 @@ export default function Index() {
                         style={{ width: 300, marginTop: 10 }}
                         onPress={() => console.log('Pressed')}
                     >
-                        Sign In With X
+                        Sign Up With X
                     </Button>
 
                     <Button
@@ -78,7 +78,7 @@ export default function Index() {
                         style={{ width: 300, marginTop: 10 }}
                         onPress={() => console.log('Pressed')}
                     >
-                        Sign In With Email
+                        Sign Up With Email
                     </Button>
                 </View>
 
