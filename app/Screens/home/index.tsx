@@ -11,6 +11,7 @@ export default function Home () {
     return (
        <View>
 
+           {/*//------------Header*/}
            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: 20, marginTop:52 }}>
                {/* Home Text */}
                <Text style={{ fontSize: 18, fontWeight:900 }}>Home</Text>
@@ -22,6 +23,7 @@ export default function Home () {
            </View>
 
 
+           {/*//-------------Tabs Area Title*/}
            <View style={{ marginTop: 10 }}>
                <ScrollView
                    horizontal
@@ -47,6 +49,22 @@ export default function Home () {
                    </TouchableOpacity>
                </ScrollView>
            </View>
+
+           {/* Content based on active tab */}
+           <View style={{
+               padding: 20,
+               backgroundColor: '#f0f0f0',
+               borderRadius: 8,
+               width: '90%',
+               alignItems: 'center',
+           }}>
+               {activeTab === "For you" ? (
+                   <Text style={{ fontSize: 16 }}>This is content for the "For you" tab.</Text>
+               ) : (
+                   <Text style={{ fontSize: 16 }}>This is content for the "Following" tab.</Text>
+               )}
+           </View>
+
        </View>
     );
 }
