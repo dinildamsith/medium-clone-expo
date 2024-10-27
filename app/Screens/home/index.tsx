@@ -4,9 +4,12 @@ import {useState} from "react";
 import PostView from "@/app/compo/postView";
 
 
+
+
 export default function Home () {
 
-    const [activeTab, setActiveTab] = useState("For you");
+    const [homeActiveTab, setHomeActiveTab] = useState("For you");
+
 
 
     return (
@@ -37,14 +40,14 @@ export default function Home () {
                    </TouchableOpacity>
 
                    {/* Inline Text Items with Underline when Active */}
-                   <TouchableOpacity onPress={() => setActiveTab("For you")} style={{ marginRight: 15 }}>
-                       <Text style={[{ fontSize: 16 }, activeTab === "For you" && { textDecorationLine: 'underline', fontWeight: 'bold', color: 'green' }]}>
+                   <TouchableOpacity onPress={() => setHomeActiveTab("For you")} style={{ marginRight: 15 }}>
+                       <Text style={[{ fontSize: 16 }, homeActiveTab === "For you" && { textDecorationLine: 'underline', fontWeight: 'bold', color: 'green' }]}>
                            For you
                        </Text>
                    </TouchableOpacity>
 
-                   <TouchableOpacity onPress={() => setActiveTab("Following")} style={{ marginRight: 15 }}>
-                       <Text style={[{ fontSize: 16 }, activeTab === "Following" && { textDecorationLine: 'underline', fontWeight: 'bold', color: 'green' }]}>
+                   <TouchableOpacity onPress={() => setHomeActiveTab("Following")} style={{ marginRight: 15 }}>
+                       <Text style={[{ fontSize: 16 }, homeActiveTab === "Following" && { textDecorationLine: 'underline', fontWeight: 'bold', color: 'green' }]}>
                            Following
                        </Text>
                    </TouchableOpacity>
@@ -57,7 +60,7 @@ export default function Home () {
                backgroundColor: '#f0f0f0',
                borderRadius: 8,
            }}>
-               {activeTab === "For you" ? (
+               {homeActiveTab === "For you" ? (
                    <ScrollView
                        contentContainerStyle={{ paddingBottom: 220 }}
                        showsVerticalScrollIndicator={false} // Hide vertical scrollbar

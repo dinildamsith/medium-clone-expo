@@ -3,7 +3,7 @@ import { Button } from 'react-native-paper';
 import {useRouter} from "expo-router";
 import {useFonts} from "expo-font";
 
-export default function Index() {
+export default function SignUp() {
 
     const router = useRouter(); // Initialize the router
 
@@ -16,7 +16,7 @@ export default function Index() {
             <View>
                 <Text style={{
                     textAlign: 'center', // Center the text
-                    fontFamily: 'PlayfairDisplay_900Black',
+                    // fontFamily: 'PlayfairDisplay_900Black',
                     fontSize: 30,
                     fontWeight: '900',
                     marginTop: 55
@@ -27,7 +27,7 @@ export default function Index() {
                 <Text style={{
                     display: 'flex',
                     justifyContent: 'center',
-                    fontFamily: 'PlayfairDisplay_900Black',
+                    // fontFamily: 'PlayfairDisplay_900Black',
                     fontSize: 60,
                     fontWeight: '900',
                     marginTop: 55,

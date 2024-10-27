@@ -18,6 +18,7 @@
     "@expo-google-fonts/playfair-display": "^0.2.3",
     "@expo/vector-icons": "^14.0.2",
     "@react-native-community/masked-view": "^0.1.11",
+    "@react-navigation/bottom-tabs": "^6.6.1",
     "@react-navigation/native": "^6.1.18",
     "@react-navigation/stack": "^6.4.1",
     "expo": "~51.0.28",
