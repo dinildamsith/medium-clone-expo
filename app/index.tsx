@@ -108,7 +108,7 @@ export default function Index() {
                         </TouchableOpacity>
                     </Text>
 
-                    <Text style={{ marginTop: 22 }}>
+                    <Text style={{ marginTop: 22, textAlign: 'center', alignSelf: 'center' }}>
                         By signing up, you agree to our
                         <Text onPress={() => console.log("Terms of Service clicked")} style={{ textDecorationLine: 'underline', color: 'blue' }}> Terms of Service </Text>
                         and acknowledge that our
