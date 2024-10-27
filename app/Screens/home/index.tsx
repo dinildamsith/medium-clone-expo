@@ -1,6 +1,7 @@
 import {ScrollView, Text, TouchableOpacity, View} from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import {useState} from "react";
+import PostView from "@/app/compo/postView";
 
 
 export default function Home () {
@@ -55,15 +56,26 @@ export default function Home () {
                padding: 20,
                backgroundColor: '#f0f0f0',
                borderRadius: 8,
-               width: '90%',
-               alignItems: 'center',
            }}>
                {activeTab === "For you" ? (
-                   <Text style={{ fontSize: 16 }}>This is content for the "For you" tab.</Text>
+                   <ScrollView
+                       contentContainerStyle={{ paddingBottom: 220 }}
+                       showsVerticalScrollIndicator={false} // Hide vertical scrollbar
+                       showsHorizontalScrollIndicator={false} // Hide horizontal scrollbar (if any)
+                   >
+                       {/* Wrap multiple PostView components in a Fragment or View */}
+                       <PostView />
+                       <PostView />
+                       <PostView />
+                       <PostView />
+                       <PostView />
+                       <PostView />
+                   </ScrollView>
                ) : (
                    <Text style={{ fontSize: 16 }}>This is content for the "Following" tab.</Text>
                )}
            </View>
+
 
        </View>
     );
