@@ -14,8 +14,7 @@ export default function Index() {
         <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', padding: 20 }}>
             <View>
                 <Text style={{
-                    display: 'flex',
-                    justifyContent: 'center',
+                    textAlign: 'center', // Center the text
                     fontFamily: 'PlayfairDisplay_900Black',
                     fontSize: 30,
                     fontWeight: '900',
@@ -100,6 +99,23 @@ export default function Index() {
                             Sign Up
                         </Text>
                     </TouchableOpacity>
+
+
+                    <Text style={{ marginTop: 22 }}>
+                        Forget Email or trouble signing in?
+                        <TouchableOpacity onPress={() => console.log("Get Help clicked")}>
+                            <Text style={{ textDecorationLine: 'underline', color: 'blue' }}> Get Help</Text>
+                        </TouchableOpacity>
+                    </Text>
+
+                    <Text style={{ marginTop: 22 }}>
+                        By signing up, you agree to our
+                        <Text onPress={() => console.log("Terms of Service clicked")} style={{ textDecorationLine: 'underline', color: 'blue' }}> Terms of Service </Text>
+                        and acknowledge that our
+                        <Text onPress={() => console.log("Privacy Policy clicked")} style={{ textDecorationLine: 'underline', color: 'blue' }}> Privacy Policy </Text>
+                        applies to you.
+                    </Text>
+
                 </View>
             </View>
         </ScrollView>

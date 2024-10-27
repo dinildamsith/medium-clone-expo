@@ -14,8 +14,7 @@ export default function Index() {
         <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', padding: 20 }}>
             <View>
                 <Text style={{
-                    display: 'flex',
-                    justifyContent: 'center',
+                    textAlign: 'center', // Center the text
                     fontFamily: 'PlayfairDisplay_900Black',
                     fontSize: 30,
                     fontWeight: '900',
@@ -71,14 +70,6 @@ export default function Index() {
                     >
                         Sign Up With Facebook
                     </Button>
-                    <Button
-                        icon="close"
-                        mode="outlined"
-                        style={{ width: 300, marginTop: 10 }}
-                        onPress={() => console.log('Pressed')}
-                    >
-                        Sign Up With X
-                    </Button>
 
                     <Button
                         icon="email"
@@ -101,6 +92,14 @@ export default function Index() {
                         </Text>
                     </TouchableOpacity>
                 </View>
+
+                <Text style={{ marginTop: 22 }}>
+                    By signing up, you agree to our
+                    <Text onPress={() => console.log("Terms of Service clicked")} style={{ textDecorationLine: 'underline', color: 'blue' }}> Terms of Service </Text>
+                    and acknowledge that our
+                    <Text onPress={() => console.log("Privacy Policy clicked")} style={{ textDecorationLine: 'underline', color: 'blue' }}> Privacy Policy </Text>
+                    applies to you.
+                </Text>
             </View>
         </ScrollView>
     );
