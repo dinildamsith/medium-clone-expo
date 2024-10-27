@@ -1,8 +1,13 @@
 import {ScrollView, Text, TouchableOpacity, View} from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import {useState} from "react";
 
 
 export default function Home () {
+
+    const [activeTab, setActiveTab] = useState("For you");
+
+
     return (
        <View>
 
@@ -28,13 +33,17 @@ export default function Home () {
                        <Ionicons name="add-circle-outline" size={24} color="black" />
                    </TouchableOpacity>
 
-                   {/* Inline Text Items with Buttons */}
-                   <TouchableOpacity onPress={() => console.log("For you clicked")} style={{ marginRight: 15 }}>
-                       <Text>For you</Text>
+                   {/* Inline Text Items with Underline when Active */}
+                   <TouchableOpacity onPress={() => setActiveTab("For you")} style={{ marginRight: 15 }}>
+                       <Text style={[{ fontSize: 16 }, activeTab === "For you" && { textDecorationLine: 'underline', fontWeight: 'bold', color: 'green' }]}>
+                           For you
+                       </Text>
                    </TouchableOpacity>
 
-                   <TouchableOpacity onPress={() => console.log("Following clicked")} style={{ marginRight: 15 }}>
-                       <Text>Following</Text>
+                   <TouchableOpacity onPress={() => setActiveTab("Following")} style={{ marginRight: 15 }}>
+                       <Text style={[{ fontSize: 16 }, activeTab === "Following" && { textDecorationLine: 'underline', fontWeight: 'bold', color: 'green' }]}>
+                           Following
+                       </Text>
                    </TouchableOpacity>
                </ScrollView>
            </View>
