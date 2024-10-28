@@ -1,7 +1,11 @@
-import {ScrollView, Text, TouchableOpacity, View} from "react-native";
+import {Dimensions, ScrollView, Text, TouchableOpacity, View} from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import {useState} from "react";
 import PostView from "@/app/compo/postView";
+// @ts-ignore
+import Icon from 'react-native-vector-icons/FontAwesome'
+
+
 
 
 
@@ -10,7 +14,7 @@ export default function Home () {
 
     const [homeActiveTab, setHomeActiveTab] = useState("For you");
 
-
+    const { height } = Dimensions.get('window');
 
     return (
        <View>
@@ -52,6 +56,25 @@ export default function Home () {
                        </Text>
                    </TouchableOpacity>
                </ScrollView>
+           </View>
+
+
+
+           <View
+               style={{
+                   position: 'absolute',
+                   height: 70,
+                   width: 70,
+                   backgroundColor: 'green',  // Set background color to green
+                   borderRadius: 35,          // Make the shape circular (half of height)
+                   top: height - 150,         // Position the view near the bottom of the screen
+                   right: 22,                 // Position the view on the right side of the screen
+                   justifyContent: 'center',
+                   alignItems: 'center',
+                   zIndex: 9999,
+               }}
+           >
+               <Icon name="pencil" size={30} color="#fff" />  {/* Add pencil icon */}
            </View>
 
            {/* Content based on active tab */}
