@@ -59,13 +59,13 @@ export default function PostView(){
                   <TouchableOpacity onPress={() => console.log("Hand icon clicked")}>
                       <FontAwesome name="hand-paper-o" size={24} color="black" style={{ marginRight: 5 }} />
                   </TouchableOpacity>
-                  <Text style={{ fontSize: 16, color: 'black', marginRight: 10 }}>20</Text>
+                  {/*<Text style={{ fontSize: 16, color: 'black', marginRight: 10 }}>20</Text>*/}
 
                   {/* Comment Icon with Comment Count */}
                   <TouchableOpacity onPress={() => console.log("Comment icon clicked")}>
                       <FontAwesome name="comment-o" size={24} color="black" style={{ marginRight: 5 }} />
                   </TouchableOpacity>
-                  <Text style={{ fontSize: 16, color: 'black', marginRight: 10 }}>20</Text>
+                  {/*<Text style={{ fontSize: 16, color: 'black', marginRight: 10 }}>20</Text>*/}
               </View>
 
               {/* Right Side - Minus Icon and Ellipsis Icon */}

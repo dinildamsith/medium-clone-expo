@@ -4,6 +4,7 @@ import {useState} from "react";
 import PostView from "@/app/compo/postView";
 // @ts-ignore
 import Icon from 'react-native-vector-icons/FontAwesome'
+import {useNavigation, useRouter} from "expo-router";
 
 
 
@@ -15,6 +16,12 @@ export default function Home () {
     const [homeActiveTab, setHomeActiveTab] = useState("For you");
 
     const { height } = Dimensions.get('window');
+
+    const router = useRouter(); // Initialize the router
+
+    const newArticalHandel = () => {
+        router.push("/Screens/articleWriteView")
+    }
 
     return (
        <View>
@@ -73,8 +80,9 @@ export default function Home () {
                    alignItems: 'center',
                    zIndex: 9999,
                }}
+               onTouchEnd={newArticalHandel}
            >
-               <Icon name="pencil" size={30} color="#fff" />  {/* Add pencil icon */}
+               <Ionicons name="pencil" size={24} color="black" />
            </View>
 
            {/* Content based on active tab */}

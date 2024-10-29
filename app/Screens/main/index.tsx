@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, StyleSheet, Text } from "react-native";
 import Tab from "@/app/compo/tab"; // Adjust the import path as needed
 import Home from "@/app/Screens/home"; // Adjust the import path as needed
 
