@@ -1,15 +1,23 @@
 import { View,Text,  Image, TouchableOpacity } from 'react-native';
 import {FontAwesome} from "@expo/vector-icons";
 import React from "react";
+import {useRouter} from "expo-router";
 
 export default function PostView(){
+
+    const router = useRouter();
+
+    const navigateHandelProfile = () => {
+        router.push("/Screens/usersProfileView")
+    }
+
     return (
       <View style={{marginBottom:100}}>
 
           {/*//--------Author details show view*/}
           <View style={{ alignItems: 'flex-start' }}>
               <TouchableOpacity
-                  onPress={() => console.log("User profile clicked")}
+                  onPress={() => navigateHandelProfile()}
                   style={{ flexDirection: 'row', alignItems: 'center' }}
               >
                   {/* User Image */}

@@ -1,15 +1,21 @@
 import React, { useState } from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import {useRouter} from "expo-router";
 
 export default function UserProfile() {
+    const router = useRouter();
     const [selectedTab, setSelectedTab] = useState('Stories'); // Initialize selected tab state
+
+    const handleBack = () => {
+        router.push("/Screens/main")
+    }
 
     return (
         <ScrollView style={styles.container}>
             {/* Header with back arrow, share, and more options */}
             <View style={styles.header}>
-                <TouchableOpacity style={styles.iconButton}>
+                <TouchableOpacity style={styles.iconButton} onPress={handleBack}>
                     <Icon name="arrow-back" size={24} color="black" />
                 </TouchableOpacity>
                 <View style={styles.rightIcons}>
@@ -35,7 +41,7 @@ export default function UserProfile() {
                             <Text style={styles.stat}>100 Followers</Text>
                             <Text style={styles.stat}>50 Following</Text>
                         </View>
-                        <TouchableOpacity style={styles.followButton}>
+                        <TouchableOpacity style={styles.followButton} onPress={()=> console.log("hii")}>
                             <Text style={styles.followButtonText}>Follow</Text>
                         </TouchableOpacity>
                     </View>
@@ -89,6 +95,8 @@ const styles = StyleSheet.create({
         color: 'black',
     },
     iconButton: {
+        position:'relative',
+        zIndex:99999,
         padding: 8,
     },
     rightIcons: {
