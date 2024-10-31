@@ -67,23 +67,24 @@ export default function Home () {
 
 
 
-           <View
+           <TouchableOpacity
                style={{
                    position: 'absolute',
                    height: 70,
                    width: 70,
-                   backgroundColor: 'green',  // Set background color to green
-                   borderRadius: 35,          // Make the shape circular (half of height)
-                   top: height - 150,         // Position the view near the bottom of the screen
-                   right: 22,                 // Position the view on the right side of the screen
+                   backgroundColor: 'green',
+                   borderRadius: 35,
+                   top: height - 150,
+                   right: 22,
                    justifyContent: 'center',
                    alignItems: 'center',
                    zIndex: 9999,
                }}
-               onTouchEnd={newArticalHandel}
+               onPress={newArticalHandel}
            >
                <Ionicons name="pencil" size={24} color="black" />
-           </View>
+           </TouchableOpacity>
+
 
            {/* Content based on active tab */}
            <View style={{

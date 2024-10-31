@@ -17,6 +17,7 @@
   "dependencies": {
     "@expo-google-fonts/playfair-display": "^0.2.3",
     "@expo/vector-icons": "^14.0.2",
+    "@heroicons/react": "^2.1.5",
     "@react-native-community/masked-view": "^0.1.11",
     "@react-navigation/bottom-tabs": "^6.6.1",
     "@react-navigation/native": "^6.1.18",

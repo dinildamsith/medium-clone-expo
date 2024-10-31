@@ -6,6 +6,8 @@ import { Button } from 'react-native-paper';
 import React, { useState } from "react";
 import { TextInput } from 'react-native-paper';
 import Tab from "@/app/compo/tab";
+import EditorToolbar from "@/app/compo/editorToolBar";
+
 
 export default function ArticleWriteView() {
     const [activeTab, setActiveTab] = useState("Home");
@@ -60,8 +62,10 @@ export default function ArticleWriteView() {
                     />
                 </View>
 
+
                 {/* Tab Component at Bottom */}
                 <View style={styles.tabContainer}>
+                    <EditorToolbar/>
                     <Tab activeTab={activeTab} setActiveTab={setActiveTab} />
                 </View>
             </SafeAreaView>
