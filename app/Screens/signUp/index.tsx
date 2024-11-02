@@ -1,16 +1,60 @@
 import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import { Button } from 'react-native-paper';
 import {useRouter} from "expo-router";
-import {useFonts} from "expo-font";
+import {useEffect, useState} from "react";
+import {auth,provider,signInWithPopup} from '@/firebase.js'
 
 export default function SignUp() {
 
     const router = useRouter(); // Initialize the router
+    const [error, setError] = useState(false);
+    const [googleErrorMessage, setGoogleErrorMessage] = useState("");
+
+
+    const handleSignUpWithGoogle = async () => {
+        try {
+            // Sign in with a pop-up window
+            const result = await signInWithPopup(auth, provider);
+            // Retrieve signed-in user credential
+            const user = result.user;
+            console.log("User signed in:", user);
+            alert("Sign up success...")
+            router.push("/")
+        } catch (error:any) {
+            const errorMessage = error.message;
+            const errorCode = error.code;
+            setError(true);
+
+            switch (errorCode) {
+                case "auth/operation-not-allowed":
+                    setGoogleErrorMessage("Email/password accounts are not enabled.");
+                    break;
+                case "auth/operation-not-supported-in-this-environment":
+                    setGoogleErrorMessage("HTTP protocol is not supported. Please use HTTPS.");
+                    break;
+                case "auth/popup-blocked":
+                    setGoogleErrorMessage("Popup has been blocked by the browser. Please allow popups for this website.");
+                    break;
+                case "auth/popup-closed-by-user":
+                    setGoogleErrorMessage("Popup has been closed by the user before finalizing the operation. Please try again.");
+                    break;
+                default:
+                    setGoogleErrorMessage(errorMessage);
+                    break;
+            }
+        }
+    };
+
+    useEffect(() => {
+        if (error) {
+            alert(error + "\n" + googleErrorMessage);
+        }
+    }, [error, googleErrorMessage]);
+
 
     const signInHandel = () => {
         router.push("/")
     }
-
     return (
         <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', padding: 20 }}>
             <View>
@@ -58,7 +102,7 @@ export default function SignUp() {
                         icon="google"
                         mode="outlined"
                         style={{ width: 300 }}
-                        onPress={() => console.log('Pressed')}
+                        onPress={() => handleSignUpWithGoogle()}
                     >
                         Sign Up With Google
                     </Button>

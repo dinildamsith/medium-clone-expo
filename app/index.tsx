@@ -8,7 +8,7 @@ export default function SignIn() {
     const router = useRouter(); // Initialize the router
 
     const signUpHandel = () => {
-        router.push("/Screens/main")
+        router.push("/Screens/signUp")
     }
 
     return (
