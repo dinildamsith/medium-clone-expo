@@ -76,7 +76,9 @@ export default function MyProfile() {
                         </View>
                     )}
                     {selectedTab === 'About' && (
-                        <Text style={styles.contentText}>This is the About content.</Text>
+                        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginTop:100 }}>
+                            <Text style={{fontSize:30, textAlign:"center"}}>My About | Hello I am Dinil Damsith</Text>
+                        </View>
                     )}
                     {selectedTab === 'List' && (
                         <Text style={styles.contentText}>This is the List content.</Text>
