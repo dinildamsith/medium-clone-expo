@@ -7,18 +7,23 @@ import React, { useState } from "react";
 import { TextInput } from 'react-native-paper';
 import Tab from "@/app/compo/tab";
 import EditorToolbar from "@/app/compo/editorToolBar";
+import { useRouter } from "expo-router";
 
 
 export default function ArticleWriteView() {
+    const router = useRouter();
     const [activeTab, setActiveTab] = useState("Home");
 
+    const handelClose = ()=> {
+        router.push("Screens/main")
+    }
     return (
         <SafeAreaProvider>
             <SafeAreaView style={styles.container}>
                 {/* Top Area */}
                 <View style={styles.topArea}>
                     {/* Close Button on the Left */}
-                    <TouchableOpacity style={{ paddingHorizontal: 10 }}>
+                    <TouchableOpacity style={{ paddingHorizontal: 10 }} onPress={()=> handelClose()}>
                         <Ionicons name="close" size={24} color="black" />
                     </TouchableOpacity>
 

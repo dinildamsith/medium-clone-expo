@@ -4,14 +4,22 @@ import { Button } from "react-native-paper";
 import { Entypo } from "@expo/vector-icons";
 import React from "react";
 import LikeCommentBookMarkTab from "@/app/compo/tab2";
+import {useRouter} from "expo-router";
 
 export default function ArticleReadView() {
+
+    const router = useRouter();
+
+    const handelBack = () => {
+        router.push("/Screens/main")
+    }
+
     return (
         <View style={styles.container}>
             {/*--------------------------- Top Area */}
             <View style={styles.topArea}>
                 {/* Close Button on the Left */}
-                <TouchableOpacity style={{ paddingHorizontal: 10 }}>
+                <TouchableOpacity style={{ paddingHorizontal: 10 }} onPress={()=> handelBack()}>
                     <Ionicons name="arrow-back" size={24} color="black" />
                 </TouchableOpacity>
 
