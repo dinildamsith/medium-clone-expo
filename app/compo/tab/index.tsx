@@ -7,9 +7,6 @@ import {useRouter} from "expo-router";
 export default function Tab({ activeTab, setActiveTab }) {
     const router = useRouter();
 
-    const navigateProfile = () => {
-        router.push("/Screens/myProfileView")
-    }
     return (
         <View style={styles.tabContainer}>
             <TouchableOpacity onPress={() => setActiveTab("Home")} style={styles.tab}>
@@ -24,7 +21,6 @@ export default function Tab({ activeTab, setActiveTab }) {
             <TouchableOpacity
                 onPress={() => {
                     setActiveTab("Account");
-                    navigateProfile();
                 }}
                 style={styles.tab}>
                 <Image

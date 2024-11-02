@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useRouter } from "expo-router";
+import MyStoriesCard from "@/app/compo/myStoriesCard";
 
 export default function MyProfile() {
     const router = useRouter();
@@ -66,7 +67,13 @@ export default function MyProfile() {
                 {/* Content Section */}
                 <View style={styles.contentContainer}>
                     {selectedTab === 'Stories' && (
-                        <Text style={styles.contentText}>This is the Stories content.</Text>
+                        <View>
+                            <MyStoriesCard/>
+                            <MyStoriesCard/>
+                            <MyStoriesCard/>
+                            <MyStoriesCard/>
+                            <MyStoriesCard/>
+                        </View>
                     )}
                     {selectedTab === 'About' && (
                         <Text style={styles.contentText}>This is the About content.</Text>

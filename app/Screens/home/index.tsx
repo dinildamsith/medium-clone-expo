@@ -19,7 +19,7 @@ export default function Home () {
 
     const router = useRouter(); // Initialize the router
 
-    const newArticalHandel = () => {
+    const newArticleHandel = () => {
         router.push("/Screens/articleWriteView")
     }
 
@@ -80,9 +80,9 @@ export default function Home () {
                    alignItems: 'center',
                    zIndex: 9999,
                }}
-               onPress={newArticalHandel}
+               onPress={newArticleHandel}
            >
-               <Ionicons name="pencil" size={24} color="black" />
+               <Ionicons name="pencil" size={24} color="white" />
            </TouchableOpacity>
 
 

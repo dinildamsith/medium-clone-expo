@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { View, StyleSheet, Text } from "react-native";
 import Tab from "@/app/compo/tab"; // Adjust the import path as needed
-import Home from "@/app/Screens/home"; // Adjust the import path as needed
+import Home from "@/app/Screens/home";
+import MyProfile from "@/app/Screens/myProfileView";
+
 
 export default function Main() {
     const [activeTab, setActiveTab] = useState("Home");
@@ -30,7 +32,7 @@ export default function Main() {
             case "Account":
                 return (
                     <View style={styles.content}>
-                        <Text>Account Content</Text>
+                        <MyProfile/>
                     </View>
                 );
             default:
