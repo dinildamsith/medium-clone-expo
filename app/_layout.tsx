@@ -11,6 +11,7 @@ export default function RootLayout() {
                 <Stack.Screen name="Screens/main/index" options={{ headerShown: false }} />
                 <Stack.Screen name="Screens/home/index" options={{ headerShown: false }} />
                 <Stack.Screen name="Screens/articleWriteView/index" options={{ headerShown: false }} />
+                <Stack.Screen name="Screens/articleReadView/index" options={{ headerShown: false }} />
                 <Stack.Screen name="Screens/usersProfileView/index" options={{ headerShown: false }} />
                 <Stack.Screen name="Screens/myProfileView/index" options={{ headerShown: false }} />
             </Stack>

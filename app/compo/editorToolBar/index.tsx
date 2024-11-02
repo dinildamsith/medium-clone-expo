@@ -12,7 +12,7 @@ export default function EditorToolbar() {
 
             {/* Custom "Quotes" Icon */}
             <TouchableOpacity style={styles.tab}>
-                <h6 style={styles.iconText}>,,</h6>
+                <Text style={styles.iconText}>,,</Text>
             </TouchableOpacity>
 
             {/* Bars Icon */}

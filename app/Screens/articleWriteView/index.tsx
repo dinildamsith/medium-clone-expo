@@ -1,5 +1,5 @@
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { SafeAreaView, TouchableOpacity, View, StyleSheet } from "react-native";
+import { SafeAreaView, TouchableOpacity, View, StyleSheet, Text } from "react-native";
 import { Entypo } from "@expo/vector-icons";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Button } from 'react-native-paper';

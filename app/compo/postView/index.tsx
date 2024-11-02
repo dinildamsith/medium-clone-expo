@@ -11,6 +11,10 @@ export default function PostView(){
         router.push("/Screens/usersProfileView")
     }
 
+    const navigateArticleRead = () => {
+        router.push("/Screens/articleReadView")
+    }
+
     return (
       <View style={{marginBottom:100}}>
 
@@ -32,6 +36,9 @@ export default function PostView(){
           </View>
 
           {/*//------------Post Details*/}
+          <TouchableOpacity
+                onPress={()=> navigateArticleRead()}
+          >
           <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 20 }}>
               {/* Text Content: Post Title and Description */}
               <View style={{ flex: 1, marginRight: 10 }}>
@@ -54,7 +61,7 @@ export default function PostView(){
                   style={{ width: 130, height: 90, marginRight:-30 }}
               />
           </View>
-
+          </TouchableOpacity>
 
           {/*//---------Post details footer*/}
           <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: 20 }}>
