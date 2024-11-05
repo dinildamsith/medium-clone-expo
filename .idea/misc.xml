@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="FrameworkDetectionExcludesConfiguration">
+    <file type="web" url="file://$PROJECT_DIR$/node_modules/@react-native/gradle-plugin" />
     <file type="web" url="file://$PROJECT_DIR$/node_modules/react-native-safe-area-context/android" />
   </component>
   <component name="ProjectRootManager">

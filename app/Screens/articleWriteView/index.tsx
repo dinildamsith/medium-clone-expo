@@ -1,46 +1,54 @@
+import React, { useState } from "react";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { SafeAreaView, TouchableOpacity, View, StyleSheet, Text } from "react-native";
 import { Entypo } from "@expo/vector-icons";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { Button } from 'react-native-paper';
-import React, { useState } from "react";
-import { TextInput } from 'react-native-paper';
+import { Button, TextInput } from 'react-native-paper';
 import Tab from "@/app/compo/tab";
 import EditorToolbar from "@/app/compo/editorToolBar";
-import { useRouter } from "expo-router";
-
+import {Stack, useRouter} from "expo-router";
 
 export default function ArticleWriteView() {
     const router = useRouter();
     const [activeTab, setActiveTab] = useState("Home");
+    const [articleText, setArticleText] = useState("");  // Track article content
+    const [cursorPosition, setCursorPosition] = useState(0); // Track cursor position
 
-    const handelClose = ()=> {
-        router.push("Screens/main")
+    // Handle closing the editor
+    const handleClose = () => {
+        router.push("/Screens/main");
+    };
+
+    const handelPreview = () => {
+        router.push("/Screens/publishNowView");
     }
+
+    // Insert image at cursor position
+    const insertImageAtCursor = (imageURL: string) => {
+        const textBeforeCursor = articleText.slice(0, cursorPosition);
+        const textAfterCursor = articleText.slice(cursorPosition);
+        setArticleText(`${textBeforeCursor}![Image](${imageURL})${textAfterCursor}`);
+    };
+
     return (
         <SafeAreaProvider>
             <SafeAreaView style={styles.container}>
                 {/* Top Area */}
                 <View style={styles.topArea}>
-                    {/* Close Button on the Left */}
-                    <TouchableOpacity style={{ paddingHorizontal: 10 }} onPress={()=> handelClose()}>
+                    <TouchableOpacity style={{ paddingHorizontal: 10 }} onPress={handleClose}>
                         <Ionicons name="close" size={24} color="black" />
                     </TouchableOpacity>
 
-                    {/* Grouping Preview Button and Three Dots */}
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                        {/* Preview Button */}
                         <Button
                             mode="contained"
-                            onPress={() => console.log('Pressed')}
+                            onPress={() => handelPreview()}
                             buttonColor="black"
                             textColor="white"
                             style={styles.previewButton}
                         >
                             Preview
                         </Button>
-
-                        {/* Three Dots Button */}
                         <TouchableOpacity style={{ paddingHorizontal: 9 }}>
                             <Entypo name="dots-three-vertical" size={20} color="black" />
                         </TouchableOpacity>
@@ -62,15 +70,18 @@ export default function ArticleWriteView() {
                         }}
                         multiline={true}
                         textAlignVertical="top"
-                        // Uncomment if you want to handle max height for input
-                        // numberOfLines={4}
+                        value={articleText}
+                        onChangeText={setArticleText}
+                        onSelectionChange={(e) => {
+                            const cursor = e.nativeEvent.selection.start;
+                            setCursorPosition(cursor); // Update cursor position on selection
+                        }}
                     />
                 </View>
 
-
                 {/* Tab Component at Bottom */}
                 <View style={styles.tabContainer}>
-                    <EditorToolbar/>
+                    <EditorToolbar onImageSelect={insertImageAtCursor} />  {/* Pass insertImageAtCursor as a prop */}
                     <Tab activeTab={activeTab} setActiveTab={setActiveTab} />
                 </View>
             </SafeAreaView>
@@ -104,7 +115,7 @@ const styles = StyleSheet.create({
     },
     textInput: {
         width: '100%',
-        maxHeight: 300, // Set max height to avoid overflow
+        maxHeight: 300,
         backgroundColor: 'transparent',
         color: 'black',
     },

@@ -20,7 +20,7 @@ export default function SignIn() {
             const user = result.user;
             console.log("User signed in:", user);
             alert("Sign In success...")
-            router.push("/")
+            router.push("/Screens/home")
         } catch (error:any) {
             const errorMessage = error.message;
             const errorCode = error.code;

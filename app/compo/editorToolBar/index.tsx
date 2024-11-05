@@ -2,46 +2,40 @@ import React from 'react';
 import { View, TouchableOpacity, StyleSheet, Text } from 'react-native';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 
-export default function EditorToolbar() {
+// @ts-ignore
+export default function EditorToolbar({ onImageSelect }) {
+    const handleImageSelect = () => {
+        // For now, let's use a sample image URL
+        const imageURL = "https://example.com/sample-image.jpg";
+        onImageSelect(imageURL);  // Insert the image at the cursor position
+    };
+
     return (
         <View style={styles.tabContainer}>
-            {/* Custom "Tt" Icon */}
             <TouchableOpacity style={styles.tab}>
                 <Text style={styles.iconText}>T<Text style={styles.subText}>T</Text></Text>
             </TouchableOpacity>
-
-            {/* Custom "Quotes" Icon */}
             <TouchableOpacity style={styles.tab}>
                 <Text style={styles.iconText}>,,</Text>
             </TouchableOpacity>
-
-            {/* Bars Icon */}
             <TouchableOpacity style={styles.tab}>
                 <FontAwesome name="bars" style={styles.icon} />
             </TouchableOpacity>
-
-            {/* Link Icon */}
             <TouchableOpacity style={styles.tab}>
                 <FontAwesome name="link" style={styles.icon} />
             </TouchableOpacity>
-
-            {/* Ellipsis Icon */}
             <TouchableOpacity style={styles.tab}>
                 <FontAwesome name="ellipsis-h" style={styles.icon} />
             </TouchableOpacity>
-
-            {/* @ Symbol Icon */}
             <TouchableOpacity style={styles.tab}>
                 <FontAwesome name="at" style={styles.icon} />
             </TouchableOpacity>
-
-            {/* Code Bracket Icon */}
             <TouchableOpacity style={styles.tab}>
                 <FontAwesome name="code" style={styles.icon} />
             </TouchableOpacity>
 
             {/* Photo Icon - Right-aligned */}
-            <TouchableOpacity style={[styles.tab, styles.photoIcon]}>
+            <TouchableOpacity style={[styles.tab, styles.photoIcon]} onPress={handleImageSelect}>
                 <FontAwesome name="image" style={styles.icon} />
             </TouchableOpacity>
         </View>
@@ -59,7 +53,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         position: 'absolute',
         bottom: 62,
-        width: '100%', // Ensures full-width container
+        width: '100%',
     },
     tab: {
         alignItems: 'center',
@@ -79,8 +73,8 @@ const styles = StyleSheet.create({
         color: '#333',
     },
     photoIcon: {
-        position: 'absolute', // Positions the Photo icon separately
-        right: 0, // Aligns it flush to the right side
+        position: 'absolute',
+        right: 0,
         padding: 10,
     },
 });
