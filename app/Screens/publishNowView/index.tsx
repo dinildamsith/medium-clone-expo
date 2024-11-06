@@ -1,13 +1,17 @@
-import React, {useContext, useEffect} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { TextInput } from 'react-native-paper';
-import {AppContext} from "@/app/appProvider"; // Make sure to install expo/vector-icons if you haven't
+import {AppContext} from "@/app/appProvider";
+import axios from "axios";
+
 
 export default function PublishNowView() {
 
     // @ts-ignore
     const { articleData, imageURL } = useContext(AppContext);
+    const [articleTitle, setArticleTitle] = useState("");
+    const [articleDesc, setArticleDesc] = useState("")
 
 
     const onPageLoad = () => {
@@ -19,6 +23,36 @@ export default function PublishNowView() {
     useEffect(() => {
         onPageLoad();
     }, []); //
+
+
+    const handelPublishNow = async () => {
+
+        const URL = "http://localhost:8080/api/add-post"
+
+        const POST_DATA = {
+            authorMail: localStorage.getItem("userMail"),
+            authorName: "dinil",
+            postTitle: articleTitle,
+            postDescription: articleDesc,
+            postSummary: articleData,
+            images: imageURL
+        }
+
+        try {
+            // Make POST request
+            const response = await axios.post(URL, POST_DATA);
+            if (response.status === 201 || 200) {
+                console.log("Success", "Article saved successfully!");
+                // Optionally clear the form fields
+                setArticleTitle("");
+            } else {
+                console.log("Error", "Failed to save the article.");
+            }
+        } catch (error) {
+            console.error("Error saving article:", error);
+            console.log("Error", "An error occurred. Please try again.");
+        }
+    }
 
     return (
         <View style={styles.container}>
@@ -50,17 +84,19 @@ export default function PublishNowView() {
                     style={styles.input}
                     placeholder="Title..."
                     multiline
+                    onChangeText={setArticleTitle}
                 />
                 <TextInput
                     style={styles.input}
                     placeholder="Description..."
                     multiline
+                    onChangeText={setArticleDesc}
                 />
                 <Text style={styles.subtitle}>Your Story Subtitle</Text>
             </View>
 
             {/* Publish Now Button */}
-            <TouchableOpacity style={styles.publishButton}>
+            <TouchableOpacity style={styles.publishButton} onPress={handelPublishNow}>
                 <Text style={styles.publishButtonText}>Publish Now</Text>
             </TouchableOpacity>
         </View>
