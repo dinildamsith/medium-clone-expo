@@ -1,35 +1,46 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { SafeAreaView, TouchableOpacity, View, StyleSheet, Text } from "react-native";
+import {SafeAreaView, TouchableOpacity, View, StyleSheet, Image} from "react-native";
 import { Entypo } from "@expo/vector-icons";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Button, TextInput } from 'react-native-paper';
 import Tab from "@/app/compo/tab";
 import EditorToolbar from "@/app/compo/editorToolBar";
-import {Stack, useRouter} from "expo-router";
+import { Stack, useRouter } from "expo-router";
+import { AppContext } from "@/app/appProvider"; // Import the context
 
 export default function ArticleWriteView() {
     const router = useRouter();
     const [activeTab, setActiveTab] = useState("Home");
-    const [articleText, setArticleText] = useState("");  // Track article content
-    const [cursorPosition, setCursorPosition] = useState(0); // Track cursor position
+    // @ts-ignore
+    const { articleData, setArticleData, imageURL, setImageURL } = useContext(AppContext);
+    const [allImageUrl, setAllImageUrls] = useState<any>([])
+    const [articleText, setArticleText] = useState(""); // Define articleText state
+    const [cursorPosition, setCursorPosition] = useState(0);
 
     // Handle closing the editor
     const handleClose = () => {
         router.push("/Screens/main");
     };
 
-    const handelPreview = () => {
-        router.push("/Screens/publishNowView");
-    }
-
-    // Insert image at cursor position
-    const insertImageAtCursor = (imageURL: string) => {
-        const textBeforeCursor = articleText.slice(0, cursorPosition);
-        const textAfterCursor = articleText.slice(cursorPosition);
-        setArticleText(`${textBeforeCursor}![Image](${imageURL})${textAfterCursor}`);
+    const handlePreview = () => {
+        setArticleData(articleText); // Store articleText in context
+        router.push("/Screens/publishNowView"); // Navigate to the publish page
     };
 
+    // Insert image at cursor position
+    const insertImageAtCursor = (imageURL: any) => {
+        // Update the list of all image URLs
+        setAllImageUrls((prev:any) => [...prev, imageURL]);
+
+        // Update the article text with the image at the cursor position
+        const textBeforeCursor = articleText.slice(0, cursorPosition);
+        const textAfterCursor = articleText.slice(cursorPosition);
+        // setArticleText(`${textBeforeCursor}![Image](${imageURL})${textAfterCursor}`);
+
+        // Optionally update context with the latest image URL
+        setImageURL(imageURL);  // Update the context with the selected image URL
+    };
     return (
         <SafeAreaProvider>
             <SafeAreaView style={styles.container}>
@@ -42,7 +53,7 @@ export default function ArticleWriteView() {
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                         <Button
                             mode="contained"
-                            onPress={() => handelPreview()}
+                            onPress={handlePreview} // Use handlePreview function
                             buttonColor="black"
                             textColor="white"
                             style={styles.previewButton}
@@ -77,6 +88,9 @@ export default function ArticleWriteView() {
                             setCursorPosition(cursor); // Update cursor position on selection
                         }}
                     />
+                    {/*{allImageUrl.map((image: any, index: number) => (*/}
+                    {/*    <Image key={index} source={{ uri: image }} style={{ width: 100, height: 100 }} />*/}
+                    {/*))}*/}
                 </View>
 
                 {/* Tab Component at Bottom */}
@@ -89,6 +103,7 @@ export default function ArticleWriteView() {
     );
 }
 
+// @ts-ignore
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -115,7 +130,7 @@ const styles = StyleSheet.create({
     },
     textInput: {
         width: '100%',
-        maxHeight: 300,
+        height:500,
         backgroundColor: 'transparent',
         color: 'black',
     },

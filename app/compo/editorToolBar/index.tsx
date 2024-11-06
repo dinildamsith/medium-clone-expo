@@ -1,13 +1,28 @@
 import React from 'react';
 import { View, TouchableOpacity, StyleSheet, Text } from 'react-native';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
+import * as ImagePicker from 'expo-image-picker';
+
 
 // @ts-ignore
 export default function EditorToolbar({ onImageSelect }) {
     const handleImageSelect = () => {
-        // For now, let's use a sample image URL
-        const imageURL = "https://example.com/sample-image.jpg";
-        onImageSelect(imageURL);  // Insert the image at the cursor position
+
+    };
+
+    const pickImageAsync = async () => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+            allowsEditing: true,
+            quality: 1,
+        });
+
+        if (!result.canceled) {
+            // For now, let's use a sample image URL
+            const imageURL = result.assets[0].uri
+            onImageSelect(imageURL);  // Insert the image at the cursor position
+        } else {
+            alert('You did not select any image.');
+        }
     };
 
     return (
@@ -35,7 +50,7 @@ export default function EditorToolbar({ onImageSelect }) {
             </TouchableOpacity>
 
             {/* Photo Icon - Right-aligned */}
-            <TouchableOpacity style={[styles.tab, styles.photoIcon]} onPress={handleImageSelect}>
+            <TouchableOpacity style={[styles.tab, styles.photoIcon]} onPress={pickImageAsync}>
                 <FontAwesome name="image" style={styles.icon} />
             </TouchableOpacity>
         </View>

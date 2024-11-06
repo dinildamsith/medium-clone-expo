@@ -1,9 +1,25 @@
-import React from 'react';
+import React, {useContext, useEffect} from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { TextInput } from 'react-native-paper'; // Make sure to install expo/vector-icons if you haven't
+import { TextInput } from 'react-native-paper';
+import {AppContext} from "@/app/appProvider"; // Make sure to install expo/vector-icons if you haven't
 
 export default function PublishNowView() {
+
+    // @ts-ignore
+    const { articleData, imageURL } = useContext(AppContext);
+
+
+    const onPageLoad = () => {
+        console.log(articleData);
+        console.log(imageURL)
+
+    };
+
+    useEffect(() => {
+        onPageLoad();
+    }, []); //
+
     return (
         <View style={styles.container}>
             {/* Back Arrow Icon */}

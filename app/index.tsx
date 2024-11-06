@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, ScrollView } from "react-native";
+import {View, Text, TouchableOpacity, ScrollView} from "react-native";
 import { Button } from 'react-native-paper';
 import {useRouter} from "expo-router";
 import {useFonts} from "expo-font";
@@ -18,7 +18,14 @@ export default function SignIn() {
             const result = await signInWithPopup(auth, provider);
             // Retrieve signed-in user credential
             const user = result.user;
+
             console.log("User signed in:", user);
+            // await AsyncStorage.setItem('accessToken', user.acc);
+            if (typeof user.email === "string") {
+                localStorage.setItem('userMail', user.email)
+                console.log("save success")
+            }
+
             alert("Sign In success...")
             router.push("/Screens/home")
         } catch (error:any) {
