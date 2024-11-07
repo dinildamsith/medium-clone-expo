@@ -18,12 +18,11 @@ export default function SignIn() {
             const result = await signInWithPopup(auth, provider);
             // Retrieve signed-in user credential
             const user = result.user;
+            const accessToken = await user.getIdToken()
 
-            console.log("User signed in:", user);
-            // await AsyncStorage.setItem('accessToken', user.acc);
             if (typeof user.email === "string") {
-                localStorage.setItem('userMail', user.email)
-                console.log("save success")
+                localStorage.setItem('token', accessToken)
+                console.log("token save success")
             }
 
             alert("Sign In success...")

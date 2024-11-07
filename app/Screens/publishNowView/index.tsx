@@ -4,9 +4,11 @@ import { Ionicons } from '@expo/vector-icons';
 import { TextInput } from 'react-native-paper';
 import {AppContext} from "@/app/appProvider";
 import axios from "axios";
+import {BASE_URL, POST_SAVE_URL} from "@/app/config/endPoints";
+import {jwtDecode, JwtDecodeOptions} from "jwt-decode";
 
 
-export default function PublishNowView() {
+export default function PublishNowView(token: string, options: JwtDecodeOptions & { header: true }) {
 
     // @ts-ignore
     const { articleData, imageURL } = useContext(AppContext);
@@ -14,24 +16,22 @@ export default function PublishNowView() {
     const [articleDesc, setArticleDesc] = useState("")
 
 
-    const onPageLoad = () => {
-        console.log(articleData);
-        console.log(imageURL)
-
-    };
-
-    useEffect(() => {
-        onPageLoad();
-    }, []); //
 
 
     const handelPublishNow = async () => {
 
-        const URL = "http://localhost:8080/api/add-post"
+        const URL = BASE_URL + POST_SAVE_URL
+
+        const token=localStorage.getItem("token")
+        let decodedToken :any= ""
+
+        if (token != null) {
+            decodedToken = jwtDecode(token, options);
+        }
 
         const POST_DATA = {
-            authorMail: localStorage.getItem("userMail"),
-            authorName: "dinil",
+            authorMail: decodedToken.email,
+            authorName: decodedToken.name,
             postTitle: articleTitle,
             postDescription: articleDesc,
             postSummary: articleData,
@@ -177,3 +177,8 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
 });
+
+
+export const JwtDecode = () => {
+
+}
