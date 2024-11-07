@@ -1,12 +1,23 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useRouter } from "expo-router";
 import MyStoriesCard from "@/app/compo/myStoriesCard";
+import {jwtDecode} from "jwt-decode";
 
 export default function MyProfile() {
     const router = useRouter();
     const [selectedTab, setSelectedTab] = useState('Stories'); // Initialize selected tab state
+    const [accountImage, setAccountImage] = useState(null)
+    const [accName, setAccName] = useState(null)
+
+
+    useEffect(() => {
+        // @ts-ignore
+        const decodedToken:any = jwtDecode(localStorage.getItem("token"));
+        setAccountImage(decodedToken.picture)
+        setAccName(decodedToken.name)
+    }, []);
 
     return (
         <ScrollView style={styles.container}>
@@ -20,12 +31,13 @@ export default function MyProfile() {
             <View style={styles.profileContainer}>
                 {/* Profile Picture and User Info */}
                 <View style={styles.userInfoContainer}>
-                    <Image
-                        source={{ uri: 'https://ichef.bbci.co.uk/ace/standard/976/cpsprodpb/2140/production/_85021580_85021579.jpg.webp' }}
-                        style={styles.profilePicture}
-                    />
+                    {accountImage ? (
+                        <Image source={{ uri: accountImage }} style={styles.profilePicture} />
+                    ) : (
+                        <></>
+                    )}
                     <View style={styles.textContainer}>
-                        <Text style={styles.username}>Mahinda Rajapaksha</Text>
+                        <Text style={styles.username}>{accName}</Text>
                         <View style={styles.statsContainer}>
                             <Text style={styles.stat}>100 Followers</Text>
                             <Text style={styles.stat}>50 Following</Text>

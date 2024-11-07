@@ -4,11 +4,11 @@ import { Ionicons } from '@expo/vector-icons';
 import { TextInput } from 'react-native-paper';
 import {AppContext} from "@/app/appProvider";
 import axios from "axios";
+import {jwtDecode } from 'jwt-decode';
 import {BASE_URL, POST_SAVE_URL} from "@/app/config/endPoints";
-import {jwtDecode, JwtDecodeOptions} from "jwt-decode";
 
 
-export default function PublishNowView(token: string, options: JwtDecodeOptions & { header: true }) {
+export default function PublishNowView() {
 
     // @ts-ignore
     const { articleData, imageURL } = useContext(AppContext);
@@ -22,16 +22,12 @@ export default function PublishNowView(token: string, options: JwtDecodeOptions 
 
         const URL = BASE_URL + POST_SAVE_URL
 
-        const token=localStorage.getItem("token")
-        let decodedToken :any= ""
-
-        if (token != null) {
-            decodedToken = jwtDecode(token, options);
-        }
+        // @ts-ignore
+        const decodedToken:any = jwtDecode(localStorage.getItem("token"));
 
         const POST_DATA = {
-            authorMail: decodedToken.email,
-            authorName: decodedToken.name,
+            authorMail: decodedToken.name,
+            authorName: decodedToken.email,
             postTitle: articleTitle,
             postDescription: articleDesc,
             postSummary: articleData,
@@ -177,8 +173,3 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
 });
-
-
-export const JwtDecode = () => {
-
-}
