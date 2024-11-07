@@ -4,6 +4,9 @@ import {useRouter} from "expo-router";
 import {useFonts} from "expo-font";
 import {useEffect, useState} from "react";
 import {auth, provider, signInWithPopup} from "@/firebase";
+import {decodedToken} from "@/app/config/decodeToken";
+import {BASE_URL, CREATE_USER} from "@/app/config/endPoints";
+import axios from "axios";
 
 export default function SignIn() {
 
@@ -22,10 +25,36 @@ export default function SignIn() {
 
             if (typeof user.email === "string") {
                 localStorage.setItem('token', accessToken)
-                console.log("token save success")
             }
 
             alert("Sign In success...")
+            const decode_token : any = decodedToken
+
+
+            const CREATE_USER_URL = BASE_URL + CREATE_USER
+            const NEW_USER = {
+                userMail:decode_token.email,
+                userName: decode_token.name,
+                userImage: decode_token.picture,
+                userAbout:"",
+                followers:0,
+                followings:0
+            }
+
+            try {
+                // Make POST request
+                const response = await axios.post(CREATE_USER_URL, NEW_USER);
+                if (response.status === 201 || 200) {
+                    console.log("create user done");
+                } else {
+                    console.log("failed user create");
+                }
+            } catch (error) {
+                console.error("Error saving user:", error);
+                console.log("Error", "An error occurred. Please try again.");
+            }
+
+
             router.push("/Screens/home")
         } catch (error:any) {
             const errorMessage = error.message;
