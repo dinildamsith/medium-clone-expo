@@ -4,15 +4,16 @@ import {useRouter} from "expo-router";
 import {useFonts} from "expo-font";
 import {useEffect, useState} from "react";
 import {auth, provider, signInWithPopup} from "@/firebase";
-import {decodedToken} from "@/app/config/decodeToken";
-import {BASE_URL, CREATE_USER} from "@/app/config/endPoints";
+import {BASE_URL, CREATE_USER, SEARCH_USER} from "@/app/config/endPoints";
 import axios from "axios";
+import {jwtDecode} from "jwt-decode";
 
 export default function SignIn() {
 
     const router = useRouter(); // Initialize the router
     const [error, setError] = useState(false);
     const [googleErrorMessage, setGoogleErrorMessage] = useState("");
+    const [singInSuccess, setSignInSuccess] = useState(false)
 
 
     const handleSignInWithGoogle = async () => {
@@ -28,34 +29,8 @@ export default function SignIn() {
             }
 
             alert("Sign In success...")
-            const decode_token : any = decodedToken
+            await createUser()
 
-
-            const CREATE_USER_URL = BASE_URL + CREATE_USER
-            const NEW_USER = {
-                userMail:decode_token.email,
-                userName: decode_token.name,
-                userImage: decode_token.picture,
-                userAbout:"",
-                followers:0,
-                followings:0
-            }
-
-            try {
-                // Make POST request
-                const response = await axios.post(CREATE_USER_URL, NEW_USER);
-                if (response.status === 201 || 200) {
-                    console.log("create user done");
-                } else {
-                    console.log("failed user create");
-                }
-            } catch (error) {
-                console.error("Error saving user:", error);
-                console.log("Error", "An error occurred. Please try again.");
-            }
-
-
-            router.push("/Screens/home")
         } catch (error:any) {
             const errorMessage = error.message;
             const errorCode = error.code;
@@ -80,6 +55,53 @@ export default function SignIn() {
             }
         }
     };
+
+
+    const createUser = async () => {
+        // @ts-ignore
+        const decode_token:any = jwtDecode(localStorage.getItem("token"))
+
+        const SEARCH_USER_URL = BASE_URL + SEARCH_USER + decode_token.email
+        const CREATE_USER_URL = BASE_URL + CREATE_USER
+
+        try {
+            const response:any = await axios.get(SEARCH_USER_URL);
+            if (response.status === 200){
+                console.log("already user have account")
+                router.push("/Screens/home")
+            }else {
+                alert("try again")
+            }
+        }catch (error:any) {
+            if (error.status === 404 || error.response.data.message === 'User not found') {
+                console.log("creating account ...")
+
+                const NEW_USER = {
+                    userMail:decode_token.email,
+                    userName: decode_token.name,
+                    userImage: decode_token.picture,
+                    userAbout:"",
+                    followers:0,
+                    followings:0
+                }
+
+                try {
+                    // Make POST request
+                    const response = await axios.post(CREATE_USER_URL, NEW_USER);
+                    if (response.status === 201 || 200) {
+                        console.log("Success Create user");
+                        router.push("/Screens/home")
+                    } else {
+                        console.log("Error", "Failed Create user");
+                    }
+                } catch (error) {
+                    console.error("Error User create", error);
+                    console.log("Error", "An error occurred. Please try again.");
+                }
+            }
+        }
+    }
+
 
     useEffect(() => {
         if (error) {
