@@ -36,17 +36,30 @@ export default function MyProfile() {
     };
 
     const userHaveAllPostGet = async () => {
-        // @ts-ignore
-        const decode_token:any = jwtDecode(localStorage.getItem("token"));
-        const USER_HAVE_ALL_POST_GET_URL = BASE_URL + USER_HAVE_ALL_POST_GET + decode_token.email;
+        try {
+            // @ts-ignore
+            const decode_token: any = jwtDecode(localStorage.getItem("token"));
+            const USER_HAVE_ALL_POST_GET_URL = BASE_URL + USER_HAVE_ALL_POST_GET + decode_token.email;
 
-        const response = await axios.get(USER_HAVE_ALL_POST_GET_URL);
-        if (response.status === 201 || 200) {
-                setUserAllPost(response.data)
-        } else {
-            console.log("error");
+            const response = await axios.get(USER_HAVE_ALL_POST_GET_URL);
+
+            if (response.status === 200 || response.status === 201) {
+                setUserAllPost(response.data);
+            } else {
+                console.log("Unexpected response status:", response.status);
+            }
+        } catch (error: any) {
+            // Check if the error is from the response
+            if (error.response) {
+                console.error("Error:", error.response.data); // Error message from the server
+            } else if (error.request) {
+                console.error("No response received:", error.request);
+            } else {
+                console.error("Error setting up the request:", error.message);
+            }
         }
-    }
+    };
+
 
     useEffect(() => {
         searchUser();
@@ -66,7 +79,7 @@ export default function MyProfile() {
                 <View style={styles.profileContainer}>
                     {/* Profile Picture and User Info */}
                     <View style={styles.userInfoContainer}>
-                        <Image source={{ uri: profilePic }} style={styles.profilePicture} />
+                        <Image source={{ uri: profilePic || 'https://cdn.vectorstock.com/i/1000v/74/56/blue-user-icon-vector-42797456.avif'}} style={styles.profilePicture} />
                         <View style={styles.textContainer}>
                             <Text style={styles.username}>{userName}</Text>
                             <View style={styles.statsContainer}>

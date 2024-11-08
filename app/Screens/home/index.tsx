@@ -1,16 +1,21 @@
 import { Dimensions, ScrollView, Text, TouchableOpacity, View, StyleSheet } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import PostView from "@/app/compo/postView";
 // @ts-ignore
 import Icon from 'react-native-vector-icons/FontAwesome'
 import { useNavigation, useRouter } from "expo-router";
 import EditorToolbar from "@/app/compo/editorToolBar";
 import Tab from "@/app/compo/tab";
+import {jwtDecode} from "jwt-decode";
+import {ANOTHER_USER_PUBLISH_POST_GET_URL, BASE_URL, USER_HAVE_ALL_POST_GET} from "@/app/config/endPoints";
+import axios from "axios";
 
 export default function Home() {
     const [activeTab, setActiveTab] = useState("Home");
     const [homeActiveTab, setHomeActiveTab] = useState("For you");
+    const [forYouTabPost, setForYouTabPost] = useState<any[]>([]); // Default to an empty array
+
 
     const { height } = Dimensions.get('window');
     const router = useRouter();
@@ -18,6 +23,37 @@ export default function Home() {
     const newArticleHandel = () => {
         router.push("/Screens/articleWriteView");
     }
+
+
+    const anotherUsersPostLoad = async () => {
+        try {
+            // @ts-ignore
+            const decode_token: any = jwtDecode(localStorage.getItem("token"));
+            const USER_HAVE_ALL_POST_GET_URL = BASE_URL + ANOTHER_USER_PUBLISH_POST_GET_URL + decode_token.email;
+
+            const response = await axios.get(USER_HAVE_ALL_POST_GET_URL);
+
+            if (response.status === 200 || response.status === 201) {
+                console.log(response.data)
+                setForYouTabPost(response.data)
+            } else {
+                console.log("Unexpected response status:", response.status);
+            }
+        } catch (error: any) {
+            // Check if the error is from the response
+            if (error.response) {
+                console.error("Error:", error.response.data); // Error message from the server
+            } else if (error.request) {
+                console.error("No response received:", error.request);
+            } else {
+                console.error("Error setting up the request:", error.message);
+            }
+        }
+    }
+
+    useEffect(() => {
+        anotherUsersPostLoad().then(()=> console.log("done..."))
+    }, []);
 
     return (
         <View style={{ flex: 1 }}> {/* Set flex: 1 to make it take full height */}
@@ -83,12 +119,21 @@ export default function Home() {
                         contentContainerStyle={{ paddingBottom: 100 }} // Extra padding for Tab bar space
                         showsVerticalScrollIndicator={false}
                     >
-                        <PostView />
-                        <PostView />
-                        <PostView />
-                        <PostView />
-                        <PostView />
-                        <PostView />
+                        {
+                            forYouTabPost.length > 0 ? (
+                                forYouTabPost.map((post:any) => (
+                                    <PostView
+                                        key={post._id}
+                                        authorName={post.authorName}
+                                        title={post.postTitle}
+                                        description={post.postDescription}
+                                        summary={post.postSummary}
+                                    />
+                                ))
+                            ) : (
+                                <p>No posts available</p> // Fallback message
+                            )
+                        }
                     </ScrollView>
                 ) : (
                     <Text style={{ fontSize: 16 }}>This is content for the "Following" tab.</Text>

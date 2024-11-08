@@ -40,7 +40,10 @@ export default function Tab({ activeTab, setActiveTab }) {
 
     return (
         <View style={styles.tabContainer}>
-            <TouchableOpacity onPress={() =>{ setActiveTab("Home"); navigateHome()}} style={styles.tab}>
+            <TouchableOpacity onPress={() =>{
+                setActiveTab("Home");
+                navigateHome()
+            }} style={styles.tab}>
                 <FontAwesome name="home" size={24} color={activeTab === "Home" ? 'blue' : 'black'} />
             </TouchableOpacity>
             <TouchableOpacity onPress={() => setActiveTab("Search")} style={styles.tab}>

@@ -3,7 +3,7 @@ import {FontAwesome} from "@expo/vector-icons";
 import React from "react";
 import {useRouter} from "expo-router";
 
-export default function PostView(){
+export default function PostView(props:any){
 
     const router = useRouter();
 
@@ -31,7 +31,7 @@ export default function PostView(){
                   />
 
                   {/* Username */}
-                  <Text style={{ fontSize: 16, color: 'black' }}>Mahinda Rajapaksa</Text>
+                  <Text style={{ fontSize: 16, color: 'black' }}>{props.authorName}</Text>
               </TouchableOpacity>
           </View>
 
@@ -43,15 +43,18 @@ export default function PostView(){
               {/* Text Content: Post Title and Description */}
               <View style={{ flex: 1, marginRight: 10 }}>
                   <Text style={{ fontSize: 16, fontWeight: 'bold' }}>
-                      Post Title
+                      {props.title}
                   </Text>
 
                   {/* Limit description to 3 lines */}
+                  {/*<Text style={{ color: 'gray', marginTop: 4 }} numberOfLines={3} ellipsizeMode="tail">*/}
+                  {/*    {props.description}*/}
+                  {/*</Text>*/}
                   <Text style={{ color: 'gray', marginTop: 4 }} numberOfLines={3} ellipsizeMode="tail">
-                      Post description
-                      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut cum dolorum
-                      eveniet inventore ipsam, molestias natus nostrum obcaecati quas quidem. Deserunt
-                      doloribus enim laudantium, maxime minus odio sapiente sequi tenetur.
+                      {props.description}
+                  </Text>
+                  <Text style={{ color: 'gray' }}>
+                      {props.summary}
                   </Text>
               </View>
 
