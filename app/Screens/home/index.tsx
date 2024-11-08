@@ -40,14 +40,7 @@ export default function Home() {
                 console.log("Unexpected response status:", response.status);
             }
         } catch (error: any) {
-            // Check if the error is from the response
-            if (error.response) {
-                console.error("Error:", error.response.data); // Error message from the server
-            } else if (error.request) {
-                console.error("No response received:", error.request);
-            } else {
-                console.error("Error setting up the request:", error.message);
-            }
+            console.log(error)
         }
     }
 
@@ -125,6 +118,7 @@ export default function Home() {
                                     <PostView
                                         key={post._id}
                                         authorName={post.authorName}
+                                        authorImage={post.authorImage}
                                         title={post.postTitle}
                                         description={post.postDescription}
                                         summary={post.postSummary}

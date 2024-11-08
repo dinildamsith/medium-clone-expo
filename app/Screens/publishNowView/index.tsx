@@ -28,10 +28,13 @@ export default function PublishNowView() {
         const POST_DATA = {
             authorMail: decodedToken.email,
             authorName: decodedToken.name,
+            authorImage: decodedToken.picture,
             postTitle: articleTitle,
             postDescription: articleDesc,
             postSummary: articleData,
-            images: imageURL
+            images: imageURL,
+            postClaps: 0,
+            postComments: []
         }
 
         try {

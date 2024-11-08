@@ -26,7 +26,7 @@ export default function PostView(props:any){
               >
                   {/* User Image */}
                   <Image
-                      source={{ uri: 'https://ichef.bbci.co.uk/ace/standard/976/cpsprodpb/2140/production/_85021580_85021579.jpg.webp' }}
+                      source={{ uri: props.authorImage }}
                       style={{ width: 40, height: 40, borderRadius: 20, marginRight: 8 }}
                   />
 
