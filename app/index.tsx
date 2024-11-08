@@ -29,6 +29,7 @@ export default function SignIn() {
             }
 
             alert("Sign In success...")
+            router.push("/Screens/home")
             await createUser()
 
         } catch (error:any) {

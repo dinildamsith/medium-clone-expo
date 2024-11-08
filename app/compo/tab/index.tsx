@@ -1,18 +1,46 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { View, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import {useRouter} from "expo-router";
+import {jwtDecode} from "jwt-decode";
+import {BASE_URL, SEARCH_USER} from "@/app/config/endPoints";
+import axios from "axios";
 
 // @ts-ignore
 export default function Tab({ activeTab, setActiveTab }) {
     const router = useRouter();
+    const [profilePic, setProfilePic] = useState();
+
 
     const navigateProfile = () => {
         router.push("/Screens/myProfileView")
     }
+
+    const navigateHome = () => {
+        router.push("/Screens/home")
+    }
+
+    const searchUser = async () => {
+        // @ts-ignore
+        const decode_token:any = jwtDecode(localStorage.getItem("token"));
+        const SEARCH_USER_URL = BASE_URL + SEARCH_USER + decode_token.email;
+
+        const response = await axios.get(SEARCH_USER_URL);
+        if (response.status === 201 || 200) {
+            setProfilePic(response.data.userImage);
+        } else {
+            console.log("error");
+        }
+    };
+
+    useEffect(() => {
+        searchUser();
+    }, []);
+
+
     return (
         <View style={styles.tabContainer}>
-            <TouchableOpacity onPress={() => setActiveTab("Home")} style={styles.tab}>
+            <TouchableOpacity onPress={() =>{ setActiveTab("Home"); navigateHome()}} style={styles.tab}>
                 <FontAwesome name="home" size={24} color={activeTab === "Home" ? 'blue' : 'black'} />
             </TouchableOpacity>
             <TouchableOpacity onPress={() => setActiveTab("Search")} style={styles.tab}>
@@ -28,7 +56,7 @@ export default function Tab({ activeTab, setActiveTab }) {
                 }}
                 style={styles.tab}>
                 <Image
-                    source={{ uri: 'https://ichef.bbci.co.uk/ace/standard/976/cpsprodpb/2140/production/_85021580_85021579.jpg.webp' }}
+                    source={{ uri: profilePic }}
                     style={styles.accountImage}
                 />
             </TouchableOpacity>
@@ -49,6 +77,7 @@ const styles = StyleSheet.create({
         bottom: 0,
         left: 0,
         right: 0,
+        zIndex:99999
     },
     tab: {
         flex: 1,
