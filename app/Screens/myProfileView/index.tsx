@@ -4,22 +4,25 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useRouter } from "expo-router";
 import MyStoriesCard from "@/app/compo/myStoriesCard";
 import { jwtDecode } from "jwt-decode";
-import { BASE_URL, SEARCH_USER } from "@/app/config/endPoints";
+import {BASE_URL, SEARCH_USER, USER_HAVE_ALL_POST_GET} from "@/app/config/endPoints";
 import axios from "axios";
 import Tab from "@/app/compo/tab";
 
 export default function MyProfile() {
+
     const [activeTab, setActiveTab] = useState("Account");
     const [selectedTab, setSelectedTab] = useState('Stories');
     const [userName, setUserName] = useState();
     const [profilePic, setProfilePic] = useState();
     const [following, setFollowing] = useState();
     const [followers, setFollowers] = useState();
+    const [userAllPost, setUserAllPost] = useState<any>()
 
     const searchUser = async () => {
         // @ts-ignore
         const decode_token:any = jwtDecode(localStorage.getItem("token"));
         const SEARCH_USER_URL = BASE_URL + SEARCH_USER + decode_token.email;
+
 
         const response = await axios.get(SEARCH_USER_URL);
         if (response.status === 201 || 200) {
@@ -32,8 +35,22 @@ export default function MyProfile() {
         }
     };
 
+    const userHaveAllPostGet = async () => {
+        // @ts-ignore
+        const decode_token:any = jwtDecode(localStorage.getItem("token"));
+        const USER_HAVE_ALL_POST_GET_URL = BASE_URL + USER_HAVE_ALL_POST_GET + decode_token.email;
+
+        const response = await axios.get(USER_HAVE_ALL_POST_GET_URL);
+        if (response.status === 201 || 200) {
+                setUserAllPost(response.data)
+        } else {
+            console.log("error");
+        }
+    }
+
     useEffect(() => {
         searchUser();
+        userHaveAllPostGet().then(r => "su")
     }, []);
 
     return (
@@ -93,9 +110,21 @@ export default function MyProfile() {
                     <View style={styles.contentContainer}>
                         {selectedTab === 'Stories' && (
                             <View>
-                                <MyStoriesCard />
-                                <MyStoriesCard />
-                                <MyStoriesCard />
+                                {
+                                    userAllPost && userAllPost.length > 0 ? (
+                                        userAllPost.map((post: any, index: any) => (
+                                            <MyStoriesCard
+                                                key={index}
+                                                title={post.postTitle}
+                                                description={post.postDescription}
+                                                date={post.date}
+                                                summary={post.postSummary}
+                                            />
+                                        ))
+                                    ) : (
+                                        <Text>No posts available.</Text> // Optional message if no posts
+                                    )
+                                }
                             </View>
                         )}
                         {selectedTab === 'About' && (

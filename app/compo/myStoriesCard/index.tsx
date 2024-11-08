@@ -2,7 +2,14 @@ import {Image, Text, TouchableOpacity, View} from "react-native";
 import {FontAwesome, MaterialIcons} from "@expo/vector-icons";
 import React from "react";
 
-export default function MyStoriesCard(){
+const formatDate = (dateString:any) => {
+    const date = new Date(dateString);
+    const options:any = { year: 'numeric', month: 'short', day: '2-digit' };
+    return date.toLocaleDateString('en-US', options);
+};
+
+
+export default function MyStoriesCard(props:any){
     return (
         <>
             <View style={{marginTop:22}}>
@@ -12,15 +19,18 @@ export default function MyStoriesCard(){
                     {/* Text Content: Post Title and Description */}
                     <View style={{ flex: 1, marginRight: 10 }}>
                         <Text style={{ fontSize: 16, fontWeight: 'bold' }}>
-                            Post Title
+                            {props.title}
                         </Text>
 
                         {/* Limit description to 3 lines */}
+                        {/*<Text style={{ color: 'gray', marginTop: 4 }} numberOfLines={3} ellipsizeMode="tail">*/}
+                        {/*    {props.description}*/}
+                        {/*</Text>*/}
                         <Text style={{ color: 'gray', marginTop: 4 }} numberOfLines={3} ellipsizeMode="tail">
-                            Post description
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut cum dolorum
-                            eveniet inventore ipsam, molestias natus nostrum obcaecati quas quidem. Deserunt
-                            doloribus enim laudantium, maxime minus odio sapiente sequi tenetur.
+                            {props.description}
+                        </Text>
+                        <Text style={{ color: 'gray' }}>
+                            {props.summary}
                         </Text>
                     </View>
 
@@ -37,7 +47,7 @@ export default function MyStoriesCard(){
                     {/* Left Side */}
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                         {/* Date */}
-                        <Text style={{ fontSize: 16, color: 'black', marginRight: 10 }}>Aug 20</Text>
+                        <Text style={{ fontSize: 16, color: 'black', marginRight: 10 }}>{formatDate(props.date)}</Text>
                     </View>
 
                     {/* Right Side - Minus Icon and Ellipsis Icon */}

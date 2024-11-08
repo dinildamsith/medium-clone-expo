@@ -26,8 +26,8 @@ export default function PublishNowView() {
         const decodedToken:any = jwtDecode(localStorage.getItem("token"));
 
         const POST_DATA = {
-            authorMail: decodedToken.name,
-            authorName: decodedToken.email,
+            authorMail: decodedToken.email,
+            authorName: decodedToken.name,
             postTitle: articleTitle,
             postDescription: articleDesc,
             postSummary: articleData,
