@@ -123,6 +123,8 @@ export default function Home() {
                                         title={post.postTitle}
                                         description={post.postDescription}
                                         summary={post.postSummary}
+                                        claps={post.postClaps}
+                                        commentsCount={post.postComments.length}
                                         images={post.images}
                                     />
                                 ))

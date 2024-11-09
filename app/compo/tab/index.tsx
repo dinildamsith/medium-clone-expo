@@ -27,6 +27,7 @@ export default function Tab({ activeTab, setActiveTab }) {
 
         const response = await axios.get(SEARCH_USER_URL);
         if (response.status === 201 || 200) {
+            console.log(response.data.userImage)
             setProfilePic(response.data.userImage);
         } else {
             console.log("error");
