@@ -3,7 +3,7 @@ import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView } from 'rea
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {useRouter} from "expo-router";
 import {jwtDecode} from "jwt-decode";
-import {BASE_URL, USER_HAVE_ALL_POST_GET} from "@/app/config/endPoints";
+import {BASE_URL, SEARCH_USER, USER_HAVE_ALL_POST_GET} from "@/app/config/endPoints";
 import axios from "axios";
 import MyStoriesCard from "../../compo/myAndUsersStoriesCard";
 import {useRoute} from "@react-navigation/core";
@@ -13,6 +13,10 @@ export default function UserProfile() {
     const route = useRoute();
     const { userProfileView }:any = route.params;
     const [selectedTab, setSelectedTab] = useState('Stories'); // Initialize selected tab state
+    const [authorName, setAuthorName] = useState()
+    const [authorImage, setAuthorImage] = useState()
+    const [authorFollowers, setAuthorFollowers] = useState()
+    const [authorFollowings, setAuthorFollowing] = useState()
     const [userAllPost, setUserAllPost] = useState<any>()
 
     const handleBack = () => {
@@ -28,6 +32,9 @@ export default function UserProfile() {
             const response = await axios.get(USER_HAVE_ALL_POST_GET_URL);
 
             if (response.status === 200 || response.status === 201) {
+                console.log(response.data[0])
+                setAuthorName(response.data[0].authorName)
+                setAuthorImage(response.data[0].authorImage)
                 setUserAllPost(response.data);
             } else {
                 console.log("Unexpected response status:", response.status);
@@ -44,11 +51,32 @@ export default function UserProfile() {
         }
     };
 
+    const searchUser = async () => {
+        const SEARCH_USER_URL = BASE_URL + SEARCH_USER + userProfileView;
+
+        const response = await axios.get(SEARCH_USER_URL);
+        if (response.status === 201 || 200) {
+            setAuthorFollowers(response.data.followers);
+            setAuthorFollowing(response.data.followings);
+        } else {
+            console.log("error");
+        }
+    };
+
 
     useEffect(() => {
-        userHaveAllPostGet().then(r => "su")
+        userHaveAllPostGet().then(()=> console.log("done"))
+        searchUser().then(()=> console.log("done"))
     }, []);
 
+
+    const formatCount = (count:any) => {
+        if (count < 1000) {
+            return count.toString();
+        } else {
+            return (count / 1000).toFixed(1) + "k";
+        }
+    };
 
     return (
         <ScrollView style={styles.container}>
@@ -71,14 +99,14 @@ export default function UserProfile() {
                 {/* Profile Picture and User Info */}
                 <View style={styles.userInfoContainer}>
                     <Image
-                        source={{ uri: 'https://ichef.bbci.co.uk/ace/standard/976/cpsprodpb/2140/production/_85021580_85021579.jpg.webp' }}
+                        source={{ uri: authorImage }}
                         style={styles.profilePicture}
                     />
                     <View style={styles.textContainer}>
-                        <Text style={styles.username}>Mahinda Rajapaksha</Text>
+                        <Text style={styles.username}>{authorName}</Text>
                         <View style={styles.statsContainer}>
-                            <Text style={styles.stat}>100 Followers</Text>
-                            <Text style={styles.stat}>50 Following</Text>
+                            <Text style={styles.stat}>{formatCount(authorFollowers)} Followers</Text>
+                            <Text style={styles.stat}>{formatCount(authorFollowings)} Following</Text>
                         </View>
                         <TouchableOpacity style={styles.followButton} onPress={()=> console.log("hii")}>
                             <Text style={styles.followButtonText}>Follow</Text>
