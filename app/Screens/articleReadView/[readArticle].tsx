@@ -127,17 +127,6 @@ export default function ArticleReadView() {
                         </TouchableOpacity>
                     </View>
 
-                    {/*<View style={{ marginTop: 30 }}>*/}
-                    {/*    <Image*/}
-                    {/*        source={{ uri: postImages[0] }}*/}
-                    {/*        style={{ width: 500, height: 300 }}*/}
-                    {/*    />*/}
-                    {/*    <Text>*/}
-                    {/*        {*/}
-                    {/*            postDescription+"\n"+postSummary*/}
-                    {/*        }*/}
-                    {/*    </Text>*/}
-                    {/*</View>*/}
                     <View style={{ marginTop: 30, alignItems: 'center' }}>
                         <Image
                             source={{ uri: postImages[0] }}
