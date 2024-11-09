@@ -7,8 +7,9 @@ export default function PostView(props:any){
 
     const router = useRouter();
 
-    const navigateHandelProfile = () => {
-        router.push("/Screens/usersProfileView")
+    const navigateHandelProfile = (authorEmail:any) => {
+        // @ts-ignore
+        router.push("/Screens/usersProfileView/"+authorEmail)
     }
 
     const navigateArticleRead = (readArticleId:any) => {
@@ -24,6 +25,15 @@ export default function PostView(props:any){
         }
     };
 
+    const formatDate = (dateString:any) => {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('en-US', {
+            month: 'short',  // "Sep"
+            day: 'numeric',  // "26"
+            year: 'numeric', // "2024"
+        });
+    };
+
 
     return (
       <View style={{marginBottom:100}}>
@@ -31,7 +41,7 @@ export default function PostView(props:any){
           {/*//--------Author details show view*/}
           <View style={{ alignItems: 'flex-start' }}>
               <TouchableOpacity
-                  onPress={() => navigateHandelProfile()}
+                  onPress={() => navigateHandelProfile(props.authorEmail)}
                   style={{ flexDirection: 'row', alignItems: 'center' }}
               >
                   {/* User Image */}
@@ -81,7 +91,7 @@ export default function PostView(props:any){
               {/* Left Side - Date and Icons */}
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                   {/* Date */}
-                  <Text style={{ fontSize: 16, color: 'black', marginRight: 10 }}>Aug 20</Text>
+                  <Text style={{ fontSize: 16, color: 'black', marginRight: 10 }}>{formatDate(props.date)}</Text>
 
                   {/* Hand Icon with Clap Count */}
                   <TouchableOpacity onPress={() => console.log("Hand icon clicked")}>

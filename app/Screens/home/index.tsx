@@ -120,12 +120,14 @@ export default function Home() {
                                         postId={post._id}
                                         authorName={post.authorName}
                                         authorImage={post.authorImage}
+                                        authorEmail={post.authorMail}
                                         title={post.postTitle}
                                         description={post.postDescription}
                                         summary={post.postSummary}
                                         claps={post.postClaps}
                                         commentsCount={post.postComments.length}
                                         images={post.images}
+                                        date={post.date}
                                     />
                                 ))
                             ) : (

@@ -1,15 +1,54 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {useRouter} from "expo-router";
+import {jwtDecode} from "jwt-decode";
+import {BASE_URL, USER_HAVE_ALL_POST_GET} from "@/app/config/endPoints";
+import axios from "axios";
+import MyStoriesCard from "../../compo/myAndUsersStoriesCard";
+import {useRoute} from "@react-navigation/core";
 
 export default function UserProfile() {
     const router = useRouter();
+    const route = useRoute();
+    const { userProfileView }:any = route.params;
     const [selectedTab, setSelectedTab] = useState('Stories'); // Initialize selected tab state
+    const [userAllPost, setUserAllPost] = useState<any>()
 
     const handleBack = () => {
         router.push("/Screens/main")
     }
+
+
+    const userHaveAllPostGet = async () => {
+        try {
+
+            const USER_HAVE_ALL_POST_GET_URL = BASE_URL + USER_HAVE_ALL_POST_GET + userProfileView;
+
+            const response = await axios.get(USER_HAVE_ALL_POST_GET_URL);
+
+            if (response.status === 200 || response.status === 201) {
+                setUserAllPost(response.data);
+            } else {
+                console.log("Unexpected response status:", response.status);
+            }
+        } catch (error: any) {
+            // Check if the error is from the response
+            if (error.response) {
+                console.error("Error:", error.response.data); // Error message from the server
+            } else if (error.request) {
+                console.error("No response received:", error.request);
+            } else {
+                console.error("Error setting up the request:", error.message);
+            }
+        }
+    };
+
+
+    useEffect(() => {
+        userHaveAllPostGet().then(r => "su")
+    }, []);
+
 
     return (
         <ScrollView style={styles.container}>
@@ -66,7 +105,24 @@ export default function UserProfile() {
                 {/* Content Section */}
                 <View style={styles.contentContainer}>
                     {selectedTab === 'Stories' && (
-                        <Text style={styles.contentText}>This is the Stories content.</Text>
+                       <>
+                           {
+                               userAllPost && userAllPost.length > 0 ? (
+                                   userAllPost.map((post: any, index: any) => (
+                                       <MyStoriesCard
+                                           key={index}
+                                           title={post.postTitle}
+                                           description={post.postDescription}
+                                           date={post.date}
+                                           summary={post.postSummary}
+                                           images={post.images}
+                                       />
+                                   ))
+                               ) : (
+                                   <Text>No posts available.</Text> // Optional message if no posts
+                               )
+                           }
+                       </>
                     )}
                     {selectedTab === 'About' && (
                         <Text style={styles.contentText}>This is the About content.</Text>

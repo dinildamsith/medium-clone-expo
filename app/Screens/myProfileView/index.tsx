@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useRouter } from "expo-router";
-import MyStoriesCard from "@/app/compo/myStoriesCard";
+import MyStoriesCard from "../../compo/myAndUsersStoriesCard";
 import { jwtDecode } from "jwt-decode";
 import {BASE_URL, SEARCH_USER, USER_HAVE_ALL_POST_GET} from "@/app/config/endPoints";
 import axios from "axios";
