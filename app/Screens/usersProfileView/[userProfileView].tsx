@@ -3,7 +3,13 @@ import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView } from 'rea
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {useRouter} from "expo-router";
 import {jwtDecode} from "jwt-decode";
-import {BASE_URL, SEARCH_USER, USER_HAVE_ALL_POST_GET, USERS_FOLLOWING_URL} from "@/app/config/endPoints";
+import {
+    BASE_URL,
+    SEARCH_USER,
+    USER_HAVE_ALL_POST_GET,
+    USER_UNFOLLOWING_URL,
+    USERS_FOLLOWING_URL
+} from "@/app/config/endPoints";
 import axios from "axios";
 import MyStoriesCard from "../../compo/myAndUsersStoriesCard";
 import {useRoute} from "@react-navigation/core";
@@ -16,8 +22,11 @@ export default function UserProfile() {
     const [authorName, setAuthorName] = useState()
     const [authorImage, setAuthorImage] = useState()
     const [authorEmail, setAuthorEmail] = useState()
-    const [authorFollowers, setAuthorFollowers] = useState()
-    const [authorFollowings, setAuthorFollowing] = useState()
+    const [authorSearchDone, setAuthorSearchDone] = useState(false)
+    const [authorFollowersCount, setAuthorFollowersCount] = useState()
+    const [authorFollowingsCount, setAuthorFollowingsCount] = useState()
+    const [authorFollowingButton, setAuthorFollowingButton] = useState<any>(null)
+    const [authorFollowers, setAuthorFollowers] = useState<any>([])
     const [userAllPost, setUserAllPost] = useState<any>()
 
     const handleBack = () => {
@@ -58,9 +67,11 @@ export default function UserProfile() {
         const response = await axios.get(SEARCH_USER_URL);
         if (response.status === 201 || 200) {
             console.log(response.data)
-            setAuthorFollowers(response.data.followers.length);
-            setAuthorFollowing(response.data.followings.length);
+            setAuthorFollowersCount(response.data.followers.length);
+            setAuthorFollowingsCount(response.data.followings.length);
+            setAuthorFollowers(response.data.followers)
             setAuthorEmail(response.data.userMail)
+            setAuthorSearchDone(true)
         } else {
             console.log("error");
         }
@@ -73,6 +84,13 @@ export default function UserProfile() {
     }, []);
 
 
+    useEffect(() => {
+        if (authorSearchDone) {
+            followingButtonShow()
+        }
+    }, [authorSearchDone]);
+
+
     const formatCount = (count:any) => {
         if (count < 1000) {
             return count.toString();
@@ -82,7 +100,8 @@ export default function UserProfile() {
     };
 
 
-    const handelFollowing = async () => {
+    //--------follow button handel
+    const handelFollowButton = async () => {
 
         // @ts-ignore
         const decode_token: any = jwtDecode(localStorage.getItem("token"));
@@ -99,6 +118,40 @@ export default function UserProfile() {
             console.log(response.data.message); // Output success message
         } catch (error:any) {
             console.error("Error following user:", error.response.data.message);
+        }
+    }
+
+    //---------handel unfollow
+    const handelUnFollow = async () => {
+        // @ts-ignore
+        const decode_token: any = jwtDecode(localStorage.getItem("token"));
+        const FOLLOWING_URL = BASE_URL + USER_UNFOLLOWING_URL
+        try {
+            const response = await axios.put(FOLLOWING_URL, {
+                followerEmail:decode_token.email,
+                followeeEmail:authorEmail,
+            });
+            if (response.status === 200 || 201){
+                alert("user Unfollowing success")
+            }
+
+            console.log(response.data.message); // Output success message
+        } catch (error:any) {
+            console.error("Error following user:", error.response.data.message);
+        }
+    }
+
+    // @ts-ignore
+    const decode_token: any = jwtDecode(localStorage.getItem("token"));
+
+    //-------following button show
+    const followingButtonShow =()=> {
+        for (let i = 0; i < authorFollowers.length; i++) {
+            if (decode_token.email === authorFollowers[i]) {
+                setAuthorFollowingButton(true)
+            }else {
+                setAuthorFollowingButton(false)
+            }
         }
     }
 
@@ -129,12 +182,22 @@ export default function UserProfile() {
                     <View style={styles.textContainer}>
                         <Text style={styles.username}>{authorName}</Text>
                         <View style={styles.statsContainer}>
-                            <Text style={styles.stat}>{formatCount(authorFollowers)} Followers</Text>
-                            <Text style={styles.stat}>{formatCount(authorFollowings)} Following</Text>
+                            <Text style={styles.stat}>{formatCount(authorFollowersCount)} Followers</Text>
+                            <Text style={styles.stat}>{formatCount(authorFollowingsCount)} Following</Text>
                         </View>
-                        <TouchableOpacity style={styles.followButton} onPress={()=> handelFollowing()}>
-                            <Text style={styles.followButtonText}>Follow</Text>
-                        </TouchableOpacity>
+
+                        {authorFollowingButton ? (
+                           <>
+                               <TouchableOpacity style={styles.followButton} onPress={()=> handelUnFollow()}>
+                                   <Text style={styles.followButtonText}>Following</Text>
+                               </TouchableOpacity>
+                           </>
+                        ) : (
+                            <>
+                                <TouchableOpacity style={styles.followButton} onPress={()=> handelFollowButton()}>
+                                    <Text style={styles.followButtonText}>Follow</Text>
+                                </TouchableOpacity></>
+                        )}
                     </View>
                 </View>
 
