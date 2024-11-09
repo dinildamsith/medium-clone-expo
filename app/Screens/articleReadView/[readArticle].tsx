@@ -129,7 +129,7 @@ export default function ArticleReadView() {
 
                     <View style={{ marginTop: 30, alignItems: 'center' }}>
                         <Image
-                            source={{ uri: postImages[0] }}
+                            source={{ uri: postImages[0] || 'https://esquire-shop.co.za/images/noimg.png' }}
                             style={{ width: '100%', height: 300 }}
                         />
                         <Text style={{marginTop:13}}>
