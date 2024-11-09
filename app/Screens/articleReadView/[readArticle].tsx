@@ -22,6 +22,7 @@ export default function ArticleReadView() {
     const [postDescription, setPostDescription] = useState()
     const [postSummary, setPostSummary] = useState()
     const [postImages, setPostImages] = useState<any>([])
+    const [publishDate, setPublishDate] = useState()
 
 
 
@@ -44,6 +45,7 @@ export default function ArticleReadView() {
                 setPostDescription(response.data.postDescription)
                 setPostSummary(response.data.postSummary)
                 setPostImages(response.data.images)
+                setPublishDate(response.data.date)
             } else {
                 console.log("Unexpected response status:", response.status);
             }
@@ -57,6 +59,15 @@ export default function ArticleReadView() {
     useEffect(() => {
         readPostGet().then(()=> console.log("done"))
     }, []);
+
+    const formatDate = (dateString:any) => {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('en-US', {
+            month: 'short',  // "Sep"
+            day: 'numeric',  // "26"
+            year: 'numeric', // "2024"
+        });
+    };
 
     return (
         <View style={styles.container}>
@@ -122,7 +133,9 @@ export default function ArticleReadView() {
                                     <Text style={{ fontSize: 16, color: 'gray', marginLeft: 5 }}>Followed</Text>
                                 </View>
                                 <Text style={{ fontSize: 14, color: 'gray' }}>Published on...</Text>
-                                <Text style={{ fontSize: 14, color: 'gray' }}>5 min read {"Sep 26, 2024"}</Text>
+                                <Text style={{ fontSize: 14, color: 'gray' }}>
+                                    5 min read {formatDate(publishDate)}
+                                </Text>
                             </View>
                         </TouchableOpacity>
                     </View>
