@@ -11,8 +11,9 @@ export default function PostView(props:any){
         router.push("/Screens/usersProfileView")
     }
 
-    const navigateArticleRead = () => {
-        router.push("/Screens/articleReadView")
+    const navigateArticleRead = (readArticleId:any) => {
+        // @ts-ignore
+        router.push('/Screens/articleReadView/'+readArticleId);
     }
 
     return (
@@ -26,7 +27,7 @@ export default function PostView(props:any){
               >
                   {/* User Image */}
                   <Image
-                      source={{ uri: props.authorImage }}
+                      source={{ uri: props.authorImage || 'https://as2.ftcdn.net/v2/jpg/02/29/75/83/1000_F_229758328_7x8jwCwjtBMmC6rgFzLFhZoEpLobB6L8.jpg' }}
                       style={{ width: 40, height: 40, borderRadius: 20, marginRight: 8 }}
                   />
 
@@ -37,7 +38,7 @@ export default function PostView(props:any){
 
           {/*//------------Post Details*/}
           <TouchableOpacity
-                onPress={()=> navigateArticleRead()}
+                onPress={()=> navigateArticleRead(props.postId)}
           >
           <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 20 }}>
               {/* Text Content: Post Title and Description */}
@@ -53,15 +54,15 @@ export default function PostView(props:any){
                   <Text style={{ color: 'gray', marginTop: 4 }} numberOfLines={3} ellipsizeMode="tail">
                       {props.description}
                   </Text>
-                  <Text style={{ color: 'gray' }}>
+                  <Text style={{ color: 'gray' }} numberOfLines={3} ellipsizeMode="tail">
                       {props.summary}
                   </Text>
               </View>
 
               {/* Image on the Right */}
               <Image
-                  source={{ uri: 'https://www.azilen.com/wp-content/uploads/2023/07/spring.jpg' }}
-                  style={{ width: 130, height: 90, marginRight:-30 }}
+                  source={{ uri: props.images[0] || 'https://www.pixsector.com/cache/517d8be6/av5c8336583e291842624.png' }}
+                  style={{ width: 190, height: 120, marginRight:-30 }}
               />
           </View>
           </TouchableOpacity>

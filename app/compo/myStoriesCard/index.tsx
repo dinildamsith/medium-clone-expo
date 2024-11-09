@@ -29,14 +29,14 @@ export default function MyStoriesCard(props:any){
                         <Text style={{ color: 'gray', marginTop: 4 }} numberOfLines={3} ellipsizeMode="tail">
                             {props.description}
                         </Text>
-                        <Text style={{ color: 'gray' }}>
+                        <Text style={{ color: 'gray' }} numberOfLines={3} ellipsizeMode="tail">
                             {props.summary}
                         </Text>
                     </View>
 
                     {/* Image on the Right */}
                     <Image
-                        source={{ uri: 'https://www.azilen.com/wp-content/uploads/2023/07/spring.jpg' }}
+                        source={{ uri: props.images[0] ||'https://www.pixsector.com/cache/517d8be6/av5c8336583e291842624.png' }}
                         style={{ width: 130, height: 90}}
                     />
                 </View>

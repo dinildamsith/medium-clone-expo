@@ -117,11 +117,13 @@ export default function Home() {
                                 forYouTabPost.map((post:any) => (
                                     <PostView
                                         key={post._id}
+                                        postId={post._id}
                                         authorName={post.authorName}
                                         authorImage={post.authorImage}
                                         title={post.postTitle}
                                         description={post.postDescription}
                                         summary={post.postSummary}
+                                        images={post.images}
                                     />
                                 ))
                             ) : (

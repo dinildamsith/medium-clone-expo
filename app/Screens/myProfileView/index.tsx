@@ -132,6 +132,7 @@ export default function MyProfile() {
                                                 description={post.postDescription}
                                                 date={post.date}
                                                 summary={post.postSummary}
+                                                images={post.images}
                                             />
                                         ))
                                     ) : (
