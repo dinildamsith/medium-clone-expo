@@ -3,7 +3,7 @@ import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView } from 'rea
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {useRouter} from "expo-router";
 import {jwtDecode} from "jwt-decode";
-import {BASE_URL, SEARCH_USER, USER_HAVE_ALL_POST_GET} from "@/app/config/endPoints";
+import {BASE_URL, SEARCH_USER, USER_HAVE_ALL_POST_GET, USERS_FOLLOWING_URL} from "@/app/config/endPoints";
 import axios from "axios";
 import MyStoriesCard from "../../compo/myAndUsersStoriesCard";
 import {useRoute} from "@react-navigation/core";
@@ -15,6 +15,7 @@ export default function UserProfile() {
     const [selectedTab, setSelectedTab] = useState('Stories'); // Initialize selected tab state
     const [authorName, setAuthorName] = useState()
     const [authorImage, setAuthorImage] = useState()
+    const [authorEmail, setAuthorEmail] = useState()
     const [authorFollowers, setAuthorFollowers] = useState()
     const [authorFollowings, setAuthorFollowing] = useState()
     const [userAllPost, setUserAllPost] = useState<any>()
@@ -32,7 +33,7 @@ export default function UserProfile() {
             const response = await axios.get(USER_HAVE_ALL_POST_GET_URL);
 
             if (response.status === 200 || response.status === 201) {
-                console.log(response.data[0])
+                // console.log(response.data[0])
                 setAuthorName(response.data[0].authorName)
                 setAuthorImage(response.data[0].authorImage)
                 setUserAllPost(response.data);
@@ -56,8 +57,10 @@ export default function UserProfile() {
 
         const response = await axios.get(SEARCH_USER_URL);
         if (response.status === 201 || 200) {
-            setAuthorFollowers(response.data.followers);
-            setAuthorFollowing(response.data.followings);
+            console.log(response.data)
+            setAuthorFollowers(response.data.followers.length);
+            setAuthorFollowing(response.data.followings.length);
+            setAuthorEmail(response.data.userMail)
         } else {
             console.log("error");
         }
@@ -77,6 +80,27 @@ export default function UserProfile() {
             return (count / 1000).toFixed(1) + "k";
         }
     };
+
+
+    const handelFollowing = async () => {
+
+        // @ts-ignore
+        const decode_token: any = jwtDecode(localStorage.getItem("token"));
+        const FOLLOWING_URL = BASE_URL + USERS_FOLLOWING_URL
+        try {
+            const response = await axios.put(FOLLOWING_URL, {
+                followerEmail:decode_token.email,
+                followeeEmail:authorEmail,
+            });
+            if (response.status === 200 || 201){
+                alert("following success")
+            }
+
+            console.log(response.data.message); // Output success message
+        } catch (error:any) {
+            console.error("Error following user:", error.response.data.message);
+        }
+    }
 
     return (
         <ScrollView style={styles.container}>
@@ -108,7 +132,7 @@ export default function UserProfile() {
                             <Text style={styles.stat}>{formatCount(authorFollowers)} Followers</Text>
                             <Text style={styles.stat}>{formatCount(authorFollowings)} Following</Text>
                         </View>
-                        <TouchableOpacity style={styles.followButton} onPress={()=> console.log("hii")}>
+                        <TouchableOpacity style={styles.followButton} onPress={()=> handelFollowing()}>
                             <Text style={styles.followButtonText}>Follow</Text>
                         </TouchableOpacity>
                     </View>

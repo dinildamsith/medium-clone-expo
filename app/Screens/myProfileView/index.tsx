@@ -28,8 +28,8 @@ export default function MyProfile() {
         if (response.status === 201 || 200) {
             setUserName(response.data.userName);
             setProfilePic(response.data.userImage);
-            setFollowers(response.data.followers);
-            setFollowing(response.data.followings);
+            setFollowers(response.data.followers.length);
+            setFollowing(response.data.followings.length);
         } else {
             console.log("error");
         }
@@ -66,6 +66,14 @@ export default function MyProfile() {
         userHaveAllPostGet().then(r => "su")
     }, []);
 
+    const formatCount = (count:any) => {
+        if (count < 1000) {
+            return count.toString();
+        } else {
+            return (count / 1000).toFixed(1) + "k";
+        }
+    };
+
     return (
         <View style={styles.container}>
             <ScrollView style={styles.content}>
@@ -83,8 +91,8 @@ export default function MyProfile() {
                         <View style={styles.textContainer}>
                             <Text style={styles.username}>{userName}</Text>
                             <View style={styles.statsContainer}>
-                                <Text style={styles.stat}>{followers} Followers</Text>
-                                <Text style={styles.stat}>{following} Following</Text>
+                                <Text style={styles.stat}>{formatCount(followers)} Followers</Text>
+                                <Text style={styles.stat}>{formatCount(following)} Following</Text>
                             </View>
                             <View style={styles.buttonContainer}>
                                 <TouchableOpacity style={styles.viewStatusButton}>

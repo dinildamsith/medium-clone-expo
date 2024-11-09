@@ -82,8 +82,8 @@ export default function SignIn() {
                     userName: decode_token.name,
                     userImage: decode_token.picture,
                     userAbout:"",
-                    followers:0,
-                    followings:0
+                    followers:[],
+                    followings:[]
                 }
 
                 try {
