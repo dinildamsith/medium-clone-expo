@@ -18,6 +18,7 @@ export default function RootLayout() {
                     <Stack.Screen name="Screens/myProfileView/index" options={{ headerShown: false }} />
                     <Stack.Screen name="Screens/publishNowView/index" options={{ headerShown: false }} />
                     <Stack.Screen name="Screens/bookMarkView/index" options={{ headerShown: false }} />
+                    <Stack.Screen name="Screens/bookMarkAllPostView/index" options={{ headerShown: false }} />
                 </Stack>
             </SafeAreaView>
         </AppProvider>

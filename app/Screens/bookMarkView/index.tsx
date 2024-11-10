@@ -3,9 +3,14 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import React, { useState } from "react";
 import PostView from "@/app/compo/postView";
 import ReadingListCard from "@/app/compo/ReadingListCard";
+import {useRouter} from "expo-router";
 
 export default function BookMarkView() {
+
+    const router = useRouter();
     const [homeActiveTab, setHomeActiveTab] = useState("Your List");
+
+
 
     return (
         <View style={{ flex: 1 }}>
