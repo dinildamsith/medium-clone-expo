@@ -1,14 +1,70 @@
 import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import PostView from "@/app/compo/postView";
 import ReadingListCard from "@/app/compo/ReadingListCard";
 import {useRouter} from "expo-router";
+import {jwtDecode} from "jwt-decode";
+import {BASE_URL, READ_POST_GET_URL, SEARCH_USER} from "@/app/config/endPoints";
+import axios from "axios";
 
 export default function BookMarkView() {
 
     const router = useRouter();
     const [homeActiveTab, setHomeActiveTab] = useState("Your List");
+
+    const [userName, setUserName] = useState();
+    const [profilePic, setProfilePic] = useState();
+    const [bookMarkPostIds, setBookMarkPostIds] = useState<any>([])
+    const [following, setFollowing] = useState();
+    const [followers, setFollowers] = useState();
+    const [bookMarkAllPost, setBookMarkAllPost] = useState<any>()
+
+    const searchUser = async () => {
+        // @ts-ignore
+        const decode_token: any = jwtDecode(localStorage.getItem("token"));
+        const SEARCH_USER_URL = BASE_URL + SEARCH_USER + decode_token.email;
+
+
+        const response = await axios.get(SEARCH_USER_URL);
+        if (response.status === 201 || 200) {
+            setUserName(response.data.userName);
+            setProfilePic(response.data.userImage);
+            setFollowers(response.data.followers.length);
+            setFollowing(response.data.followings.length);
+            setBookMarkPostIds(response.data.bookMarksPosts)
+        } else {
+            console.log("error");
+        }
+    }
+
+
+    // const bookMarkPostGet = async () => {
+    //     try {
+    //
+    //         for (let i = 0; i < bookMarkPostIds.length; i++) {
+    //             const BOOKMARK_POST_GET_URl = BASE_URL + READ_POST_GET_URL + bookMarkPostIds[i]
+    //
+    //             const response:any = await axios.get(BOOKMARK_POST_GET_URl);
+    //
+    //             if (response.status === 200 || response.status === 201) {
+    //                 console.log(response.data)
+    //
+    //             } else {
+    //                 console.log("Unexpected response status:", response.status);
+    //             }
+    //         }
+    //
+    //     } catch (error: any) {
+    //         console.log(error)
+    //         alert("try again...")
+    //     }
+    // }
+
+    useEffect(() => {
+        searchUser().then(() => console.log("done"));
+        // bookMarkPostGet()
+    }, []);
 
 
 
@@ -70,7 +126,7 @@ export default function BookMarkView() {
                 {homeActiveTab === "Your List" && (
                     <ScrollView contentContainerStyle={{ paddingBottom: 100 }} showsVerticalScrollIndicator={false}>
                         <>
-                            <ReadingListCard/>
+                            <ReadingListCard profilePic={profilePic} name={userName} bookMarkCount={bookMarkPostIds.length}/>
                         </>
                     </ScrollView>
                 )}

@@ -9,28 +9,30 @@ const formatDate = (dateString:any) => {
     return date.toLocaleDateString('en-US', options);
 };
 
-export default function BookmarkPostCard() {
+
+
+export default function BookmarkPostCard(props:any) {
     return (
         <View style={styles.cardContainer}>
             {/* User Info (Image + Username) */}
             <View style={styles.userInfo}>
                 <Image
-                    source={{ uri: 'https://www.pixsector.com/cache/517d8be6/av5c8336583e291842624.png' }} // Add your user image URL here
+                    source={{ uri: props.authorImage ||'https://www.pixsector.com/cache/517d8be6/av5c8336583e291842624.png' }} // Add your user image URL here
                     style={styles.userImage}
                 />
-                <Text style={styles.username}>Username</Text>
+                <Text style={styles.username}>{props.authorName}</Text>
             </View>
 
             {/* Post Details */}
             <View style={styles.postDetails}>
                 {/* Text Content: Post Title and Description */}
                 <View style={styles.textContent}>
-                    <Text style={styles.title}>Title</Text>
+                    <Text style={styles.title}>{props.title}</Text>
                 </View>
 
                 {/* Image on the Right */}
                 <Image
-                    source={{ uri: 'https://www.pixsector.com/cache/517d8be6/av5c8336583e291842624.png' }}
+                    source={{ uri: props.postImage ||'https://www.pixsector.com/cache/517d8be6/av5c8336583e291842624.png' }}
                     style={styles.image}
                 />
             </View>
@@ -39,7 +41,7 @@ export default function BookmarkPostCard() {
             <View style={styles.footer}>
                 {/* Left Side - Date */}
                 <View style={styles.dateContainer}>
-                    <Text style={styles.dateText}>2022</Text>
+                    <Text style={styles.dateText}>{formatDate(props.date)}</Text>
                 </View>
 
                 {/* Right Side - Bookmark Icon and Ellipsis Icon */}

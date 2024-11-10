@@ -1,10 +1,74 @@
 import { View, TouchableOpacity, StyleSheet, Image, Text } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Entypo } from "@expo/vector-icons";
-import React from "react";
+import React, {useEffect, useState} from "react";
 import BookmarkPostCard from "@/app/compo/bookmarkPostCard";
+import {jwtDecode} from "jwt-decode";
+import {BASE_URL, READ_POST_GET_URL, SEARCH_USER} from "@/app/config/endPoints";
+import axios from "axios";
 
 export default function BookMarkAllPostView() {
+
+    const [userName, setUserName] = useState();
+    const [profilePic, setProfilePic] = useState();
+    const [bookMarkPostIds, setBookMarkPostIds] = useState<any>([])
+    const [AllBookMarkPost, setAllBookMarkPost] = useState<any>([]);
+
+
+
+    const searchUser = async () => {
+        // @ts-ignore
+        const decode_token: any = jwtDecode(localStorage.getItem("token"));
+        const SEARCH_USER_URL = BASE_URL + SEARCH_USER + decode_token.email;
+
+
+        const response = await axios.get(SEARCH_USER_URL);
+        if (response.status === 201 || 200) {
+            setUserName(response.data.userName);
+            setProfilePic(response.data.userImage);
+            setBookMarkPostIds(response.data.bookMarksPosts)
+        } else {
+            console.log("error");
+        }
+    }
+
+    useEffect(() => {
+        searchUser().then(() => console.log("done"));
+        // bookMarkPostGet()
+    }, []);
+
+
+
+    const bookMarkPostGet = async () => {
+        try {
+            const fetchedPosts = [];
+            for (let i = 0; i < bookMarkPostIds.length; i++) {
+                const BOOKMARK_POST_GET_URL = `${BASE_URL}${READ_POST_GET_URL}${bookMarkPostIds[i]}`;
+
+                const response = await axios.get(BOOKMARK_POST_GET_URL);
+
+                if (response.status === 200 || response.status === 201) {
+                    console.log(response.data);
+                    fetchedPosts.push(response.data);
+                } else {
+                    console.log("Unexpected response status:", response.status);
+                }
+            }
+            setAllBookMarkPost(fetchedPosts); // Update state to trigger re-render
+        } catch (error) {
+            console.error("Error fetching bookmarked posts:", error);
+            alert("Try again...");
+        }
+    };
+
+    useEffect(() => {
+        // Fetch bookmarked posts after setting bookMarkPostIds
+        if (bookMarkPostIds.length > 0) {
+            bookMarkPostGet();
+        }
+    }, [bookMarkPostIds]);
+
+
     return (
         <View style={{ flex: 1 }}>
             {/* Top Area */}
@@ -26,13 +90,13 @@ export default function BookMarkAllPostView() {
             {/* User Info Section */}
             <View style={styles.userInfo}>
                 <Image
-                    source={{ uri: 'https://as1.ftcdn.net/v2/jpg/03/46/83/96/1000_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg' }} // Replace with actual user image URL
+                    source={{ uri: profilePic }} // Replace with actual user image URL
                     style={styles.userImage}
                 />
                 <View style={styles.userText}>
-                    <Text style={styles.username}>Username</Text>
+                    <Text style={styles.username}>{userName}</Text>
                     <Text style={styles.timestamp}>2 hours ago</Text>
-                    <Text style={styles.stories}>4 stories</Text>
+                    <Text style={styles.stories}>{bookMarkPostIds.length} stories</Text>
                 </View>
             </View>
 
@@ -40,7 +104,16 @@ export default function BookMarkAllPostView() {
             <Text style={styles.readingList}>Reading List</Text>
 
             <View>
-                <BookmarkPostCard/>
+                {AllBookMarkPost.map((post:any, index:any) => (
+                    <BookmarkPostCard key={post.id || index}
+                                      authorImage={post.authorImage}
+                                      authorName={post.authorName}
+                                      title={post.postTitle}
+                                      postImage={post.images[0]}
+                                      date={post.date}
+
+                    />
+                ))}
             </View>
         </View>
     );
@@ -80,7 +153,7 @@ const styles = StyleSheet.create({
     userImage: {
         width: 50,
         height: 50,
-        borderRadius: 20,
+        borderRadius: 90,
         marginRight: 10,
     },
     userText: {
