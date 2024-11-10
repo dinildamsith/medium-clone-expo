@@ -40,6 +40,7 @@ export default function LikeCommentBookMarkTab(props: any) {
         }
     };
 
+    //--------handel post bookmark and un-bookmark
     const handelPostBookMark = async (postId: any) => {
         try {
             const POST_BOOKMARK_URL = BASE_URL + BOOKMARK_POST_URL;
@@ -114,7 +115,6 @@ export default function LikeCommentBookMarkTab(props: any) {
             {userThisPostBookMark === "bookmarked" ? (
                 <TouchableOpacity style={styles.tab} onPress={() => handelPostBookMark(props.postId)}>
                     <FontAwesome name="bookmark" size={24} color="black" />
-                    <Text style={{ fontSize: 16, marginLeft: 5 }}>Unbookmark</Text>
                 </TouchableOpacity>
             ) : (
                 <TouchableOpacity
@@ -122,7 +122,6 @@ export default function LikeCommentBookMarkTab(props: any) {
                     onPress={() => handelPostBookMark(props.postId)}
                 >
                     <FontAwesome name="bookmark-o" size={24} color="black" />
-                    <Text style={{ fontSize: 16, marginLeft: 5 }}>Bookmark</Text>
                 </TouchableOpacity>
             )}
         </View>
