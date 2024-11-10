@@ -20,6 +20,10 @@ export default function Tab({ activeTab, setActiveTab }) {
         router.push("/Screens/home")
     }
 
+    const navigateBookMark = () => {
+        router.push("/Screens/bookMarkView")
+    }
+
     const searchUser = async () => {
         // @ts-ignore
         const decode_token:any = jwtDecode(localStorage.getItem("token"));
@@ -50,7 +54,11 @@ export default function Tab({ activeTab, setActiveTab }) {
             <TouchableOpacity onPress={() => setActiveTab("Search")} style={styles.tab}>
                 <FontAwesome name="search" size={24} color={activeTab === "Search" ? 'blue' : 'black'} />
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => setActiveTab("Bookmarks")} style={styles.tab}>
+            <TouchableOpacity onPress={() => {
+                setActiveTab("Bookmarks");
+                navigateBookMark()
+
+                }} style={styles.tab}>
                 <FontAwesome name="bookmark" size={24} color={activeTab === "Bookmarks" ? 'blue' : 'black'} />
             </TouchableOpacity>
             <TouchableOpacity
