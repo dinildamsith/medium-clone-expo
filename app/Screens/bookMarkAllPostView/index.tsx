@@ -106,6 +106,7 @@ export default function BookMarkAllPostView() {
             <View>
                 {AllBookMarkPost.map((post:any, index:any) => (
                     <BookmarkPostCard key={post.id || index}
+                                      postId={post._id}
                                       authorImage={post.authorImage}
                                       authorName={post.authorName}
                                       title={post.postTitle}

@@ -1,61 +1,70 @@
 import { Image, Text, TouchableOpacity, View, StyleSheet } from "react-native";
 import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
 import React from "react";
-
-const formatDate = (dateString:any) => {
-    const date = new Date(dateString);
-    const options = { year: 'numeric', month: 'short', day: '2-digit' };
-    // @ts-ignore
-    return date.toLocaleDateString('en-US', options);
-};
-
+import {useRouter} from "expo-router";
 
 
 export default function BookmarkPostCard(props:any) {
+
+    const router = useRouter()
+
+    const handelBookMarkPostRead = (readArticleId:any) => {
+        // @ts-ignore
+        router.push('/Screens/articleReadView/'+readArticleId);
+    }
+
+    const formatDate = (dateString:any) => {
+        const date = new Date(dateString);
+        const options = { year: 'numeric', month: 'short', day: '2-digit' };
+        // @ts-ignore
+        return date.toLocaleDateString('en-US', options);
+    };
     return (
-        <View style={styles.cardContainer}>
-            {/* User Info (Image + Username) */}
-            <View style={styles.userInfo}>
-                <Image
-                    source={{ uri: props.authorImage ||'https://www.pixsector.com/cache/517d8be6/av5c8336583e291842624.png' }} // Add your user image URL here
-                    style={styles.userImage}
-                />
-                <Text style={styles.username}>{props.authorName}</Text>
-            </View>
-
-            {/* Post Details */}
-            <View style={styles.postDetails}>
-                {/* Text Content: Post Title and Description */}
-                <View style={styles.textContent}>
-                    <Text style={styles.title}>{props.title}</Text>
+        <TouchableOpacity onPress={()=> handelBookMarkPostRead(props.postId)}>
+            <View style={styles.cardContainer}>
+                {/* User Info (Image + Username) */}
+                <View style={styles.userInfo}>
+                    <Image
+                        source={{ uri: props.authorImage ||'https://www.pixsector.com/cache/517d8be6/av5c8336583e291842624.png' }} // Add your user image URL here
+                        style={styles.userImage}
+                    />
+                    <Text style={styles.username}>{props.authorName}</Text>
                 </View>
 
-                {/* Image on the Right */}
-                <Image
-                    source={{ uri: props.postImage ||'https://www.pixsector.com/cache/517d8be6/av5c8336583e291842624.png' }}
-                    style={styles.image}
-                />
-            </View>
+                {/* Post Details */}
+                <View style={styles.postDetails}>
+                    {/* Text Content: Post Title and Description */}
+                    <View style={styles.textContent}>
+                        <Text style={styles.title}>{props.title}</Text>
+                    </View>
 
-            {/* Post Details Footer */}
-            <View style={styles.footer}>
-                {/* Left Side - Date */}
-                <View style={styles.dateContainer}>
-                    <Text style={styles.dateText}>{formatDate(props.date)}</Text>
+                    {/* Image on the Right */}
+                    <Image
+                        source={{ uri: props.postImage ||'https://www.pixsector.com/cache/517d8be6/av5c8336583e291842624.png' }}
+                        style={styles.image}
+                    />
                 </View>
 
-                {/* Right Side - Bookmark Icon and Ellipsis Icon */}
-                <View style={styles.iconGroup}>
+                {/* Post Details Footer */}
+                <View style={styles.footer}>
+                    {/* Left Side - Date */}
+                    <View style={styles.dateContainer}>
+                        <Text style={styles.dateText}>{formatDate(props.date)}</Text>
+                    </View>
 
-                    {/* Ellipsis Icon */}
-                    <TouchableOpacity onPress={() => console.log("More options clicked")}>
-                        <FontAwesome name="ellipsis-h" size={24} color="black" style={styles.ellipsisIcon} />
-                    </TouchableOpacity>
+                    {/* Right Side - Bookmark Icon and Ellipsis Icon */}
+                    <View style={styles.iconGroup}>
+
+                        {/* Ellipsis Icon */}
+                        <TouchableOpacity onPress={() => console.log("More options clicked")}>
+                            <FontAwesome name="ellipsis-h" size={24} color="black" style={styles.ellipsisIcon} />
+                        </TouchableOpacity>
+                    </View>
                 </View>
+
+
             </View>
-
-
-        </View>
+        </TouchableOpacity>
     );
 }
 
