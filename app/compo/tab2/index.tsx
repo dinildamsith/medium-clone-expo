@@ -5,8 +5,11 @@ import { jwtDecode } from "jwt-decode";
 // @ts-ignore
 import { BASE_URL, BOOKMARK_POST_URL, SEARCH_USER } from "@/app/config/endPoints";
 import axios from "axios";
+import {useRouter} from "expo-router";
 
 export default function LikeCommentBookMarkTab(props: any) {
+
+    const navigation = useRouter()
     const [postId, setPostId] = useState();
     const [userId, setUserId] = useState();
     const [userBookMarkAllPosts, setUserBookMarkAllPosts] = useState<any>([]);
@@ -39,6 +42,11 @@ export default function LikeCommentBookMarkTab(props: any) {
             console.error("Error:", error);
         }
     };
+
+
+    const handelCommentPageNavigate = (postId:any) => {
+        navigation.push("/Screens/commentAddView/"+postId)
+    }
 
     //--------handel post bookmark and un-bookmark
     const handelPostBookMark = async (postId: any) => {
@@ -107,7 +115,7 @@ export default function LikeCommentBookMarkTab(props: any) {
                 <Text style={{ fontSize: 16, marginLeft: 5 }}>{props.postClaps || 0}</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.centerTab}>
+            <TouchableOpacity style={styles.centerTab} onPress={()=> handelCommentPageNavigate(props.postId)}>
                 <FontAwesome name="comment-o" size={24} color="black" />
                 <Text style={{ fontSize: 16, marginLeft: 5 }}>{props.comments || 0}</Text>
             </TouchableOpacity>

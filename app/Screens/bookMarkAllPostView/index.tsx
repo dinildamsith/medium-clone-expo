@@ -1,4 +1,4 @@
-import { View, TouchableOpacity, StyleSheet, Image, Text } from "react-native";
+import {View, TouchableOpacity, StyleSheet, Image, Text, BackHandler} from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Entypo } from "@expo/vector-icons";
 import React, {useEffect, useState} from "react";
@@ -6,9 +6,11 @@ import BookmarkPostCard from "@/app/compo/bookmarkPostCard";
 import {jwtDecode} from "jwt-decode";
 import {BASE_URL, READ_POST_GET_URL, SEARCH_USER} from "@/app/config/endPoints";
 import axios from "axios";
+import {useRouter} from "expo-router";
 
 export default function BookMarkAllPostView() {
 
+    const router = useRouter();
     const [userName, setUserName] = useState();
     const [profilePic, setProfilePic] = useState();
     const [bookMarkPostIds, setBookMarkPostIds] = useState<any>([])
@@ -69,11 +71,47 @@ export default function BookMarkAllPostView() {
     }, [bookMarkPostIds]);
 
 
+    //----------handel mobile back
+    useEffect(() => {
+        // Function to handle the back button press
+        const backAction = () => {
+            // Show an alert before navigating
+            router.push("/Screens/home")
+            return true; // Prevent default back action (going back to previous screen)
+        };
+
+        // Add event listener to handle the back button press
+        BackHandler.addEventListener('hardwareBackPress', backAction);
+
+        // Cleanup the event listener when the component unmounts
+        return () => {
+            BackHandler.removeEventListener('hardwareBackPress', backAction);
+        };
+    }, []);
+
+
+    //--------handel browser back
+        useEffect(() => {
+            const handleBackButton = (event:any) => {
+                event.preventDefault();
+                router.push("/Screens/home")
+            };
+
+            // Attach event listener to the popstate event
+            window.onpopstate = handleBackButton;
+
+            // Cleanup the event listener when the component unmounts
+            return () => {
+                window.onpopstate = null;
+            };
+        }, []);
+
+
     return (
         <View style={{ flex: 1 }}>
             {/* Top Area */}
             <View style={styles.topArea}>
-                <TouchableOpacity style={{ paddingHorizontal: 10 }}>
+                <TouchableOpacity style={{ paddingHorizontal: 10 }} onPress={()=> router.push("/Screens/bookMarkView") }>
                     <Ionicons name="arrow-back" size={24} color="black" />
                 </TouchableOpacity>
 

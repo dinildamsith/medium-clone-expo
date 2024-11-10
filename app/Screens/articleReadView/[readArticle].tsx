@@ -30,7 +30,7 @@ export default function ArticleReadView() {
 
 
     const handelBack = () => {
-        router.push("/Screens/main")
+        router.push("/Screens/home")
     }
 
     const readPostGet = async () => {

@@ -1,15 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { useRouter } from "expo-router";
+
 import MyStoriesCard from "../../compo/myAndUsersStoriesCard";
 import { jwtDecode } from "jwt-decode";
 import {BASE_URL, SEARCH_USER, USER_HAVE_ALL_POST_GET} from "@/app/config/endPoints";
 import axios from "axios";
 import Tab from "@/app/compo/tab";
+import {useRouter} from "expo-router";
+
+
 
 export default function MyProfile() {
 
+
+    const router = useRouter();
     const [activeTab, setActiveTab] = useState("Account");
     const [selectedTab, setSelectedTab] = useState('Stories');
     const [userName, setUserName] = useState();
@@ -59,6 +64,10 @@ export default function MyProfile() {
             }
         }
     };
+
+    const handelMyStoriesRead = (postId:any) =>{
+        router.push("/Screens/articleReadView/"+postId)
+    }
 
 
     useEffect(() => {
@@ -130,24 +139,27 @@ export default function MyProfile() {
                     {/* Content Section */}
                     <View style={styles.contentContainer}>
                         {selectedTab === 'Stories' && (
-                            <View>
+                            <>
                                 {
                                     userAllPost && userAllPost.length > 0 ? (
                                         userAllPost.map((post: any, index: any) => (
-                                            <MyStoriesCard
-                                                key={index}
-                                                title={post.postTitle}
-                                                description={post.postDescription}
-                                                date={post.date}
-                                                summary={post.postSummary}
-                                                images={post.images}
-                                            />
+                                            <TouchableOpacity key={index} onPress={()=> handelMyStoriesRead(post._id)}>
+                                                <MyStoriesCard
+                                                    key={index}
+                                                    postId={post._id}
+                                                    title={post.postTitle}
+                                                    description={post.postDescription}
+                                                    date={post.date}
+                                                    summary={post.postSummary}
+                                                    images={post.images}
+                                                />
+                                            </TouchableOpacity>
                                         ))
                                     ) : (
                                         <Text>No posts available.</Text> // Optional message if no posts
                                     )
                                 }
-                            </View>
+                            </>
                         )}
                         {selectedTab === 'About' && (
                             <View style={styles.aboutContent}>
