@@ -18,10 +18,13 @@ export default function ArticleReadView() {
 
     const [authorName, setAuthorName] = useState()
     const [authorImage, setAuthorImage] = useState()
+    const [postId, setPostId] = useState()
     const [postTitle, setPostTitle] = useState()
     const [postDescription, setPostDescription] = useState()
     const [postSummary, setPostSummary] = useState()
     const [postImages, setPostImages] = useState<any>([])
+    const [postClaps, setPostClaps] = useState()
+    const [postComments, setPostComments] = useState<any>(0)
     const [publishDate, setPublishDate] = useState()
 
 
@@ -41,7 +44,10 @@ export default function ArticleReadView() {
                 console.log(response.data)
                 setAuthorName(response.data.authorName)
                 setAuthorImage(response.data.authorImage)
+                setPostId(response.data._id)
                 setPostTitle(response.data.postTitle)
+                setPostClaps(response.data.postClaps)
+                setPostComments(response.data.postComments)
                 setPostDescription(response.data.postDescription)
                 setPostSummary(response.data.postSummary)
                 setPostImages(response.data.images)
@@ -154,7 +160,7 @@ export default function ArticleReadView() {
             </ScrollView>
 
             {/* Like, Comment, Bookmark Tab */}
-            <LikeCommentBookMarkTab />
+            <LikeCommentBookMarkTab postId={postId} clapsCount={postClaps} comments={postComments.length} />
         </View>
     );
 }
