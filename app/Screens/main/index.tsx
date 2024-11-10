@@ -3,6 +3,7 @@ import { View, StyleSheet, Text } from "react-native";
 import Tab from "@/app/compo/tab"; // Adjust the import path as needed
 import Home from "@/app/Screens/home";
 import MyProfile from "@/app/Screens/myProfileView";
+import BookMarkView from "@/app/Screens/bookMarkView";
 
 
 export default function Main() {
@@ -26,7 +27,7 @@ export default function Main() {
             case "Bookmarks":
                 return (
                     <View style={styles.content}>
-                        <Text>Bookmarks Content</Text>
+                        <BookMarkView/>
                     </View>
                 );
             case "Account":
