@@ -8,6 +8,9 @@ import axios from "axios";
 
 // @ts-ignore
 export default function Tab({ activeTab, setActiveTab }) {
+
+    const [retryCount, setRetryCount] = useState(0);
+    const maxRetries = 3;
     const router = useRouter();
     const [profilePic, setProfilePic] = useState();
 
@@ -25,16 +28,35 @@ export default function Tab({ activeTab, setActiveTab }) {
     }
 
     const searchUser = async () => {
-        // @ts-ignore
-        const decode_token:any = jwtDecode(localStorage.getItem("token"));
-        const SEARCH_USER_URL = BASE_URL + SEARCH_USER + decode_token.email;
+        try {
+            // @ts-ignore
+            const decode_token: any = jwtDecode(localStorage.getItem("token"));
+            const SEARCH_USER_URL = BASE_URL + SEARCH_USER + decode_token.email;
 
-        const response = await axios.get(SEARCH_USER_URL);
-        if (response.status === 201 || 200) {
-            console.log(response.data.userImage)
-            setProfilePic(response.data.userImage);
-        } else {
-            console.log("error");
+            const response = await axios.get(SEARCH_USER_URL);
+
+            if (response.status === 200) {
+                console.log(response.data.userImage);
+                setProfilePic(response.data.userImage);
+                setRetryCount(0); // Reset retry count on success
+            } else {
+                console.log("Unexpected response status:", response.status);
+            }
+        } catch (error: any) {
+            if (error.response && error.response.status === 404) {
+                console.log("User not found. Consider creating an account.");
+
+                // Only retry if below maxRetries
+                if (retryCount < maxRetries) {
+                    setRetryCount(retryCount + 1);
+                    searchUser();
+                } else {
+                    console.log("Max retry limit reached.");
+                    // Optional: Trigger sign-up prompt or other UI action here
+                }
+            } else {
+                console.error("An error occurred:", error.message);
+            }
         }
     };
 

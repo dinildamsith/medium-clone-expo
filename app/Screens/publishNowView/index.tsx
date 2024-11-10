@@ -6,10 +6,12 @@ import {AppContext} from "@/app/appProvider";
 import axios from "axios";
 import {jwtDecode } from 'jwt-decode';
 import {BASE_URL, POST_SAVE_URL} from "@/app/config/endPoints";
+import {useRouter} from "expo-router";
 
 
 export default function PublishNowView() {
 
+    const router = useRouter();
     // @ts-ignore
     const { articleData, imageURL } = useContext(AppContext);
     const [articleTitle, setArticleTitle] = useState("");
@@ -42,8 +44,10 @@ export default function PublishNowView() {
             const response = await axios.post(URL, POST_DATA);
             if (response.status === 201 || 200) {
                 console.log("Success", "Article saved successfully!");
-                // Optionally clear the form fields
-                setArticleTitle("");
+                setArticleTitle("")
+                setArticleDesc("")
+                router.push("/Screens/articleWriteView");
+                alert("Article Publish done...")
             } else {
                 console.log("Error", "Failed to save the article.");
             }
@@ -52,6 +56,11 @@ export default function PublishNowView() {
             console.log("Error", "An error occurred. Please try again.");
         }
     }
+    useEffect(() => {
+       console.log(imageURL)
+    }, []);
+
+
 
     return (
         <View style={styles.container}>
@@ -80,12 +89,14 @@ export default function PublishNowView() {
                     <Text style={styles.userName}>User Name</Text>
                 </View>
                 <TextInput
+                    value={articleTitle}
                     style={styles.input}
                     placeholder="Title..."
                     multiline
                     onChangeText={setArticleTitle}
                 />
                 <TextInput
+                    value={articleDesc}
                     style={styles.input}
                     placeholder="Description..."
                     multiline

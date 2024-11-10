@@ -20,7 +20,7 @@ export default function ArticleWriteView() {
 
     // Handle closing the editor
     const handleClose = () => {
-        router.push("/Screens/main");
+        router.push("/Screens/home");
     };
 
     const handlePreview = () => {

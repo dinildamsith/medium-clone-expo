@@ -30,7 +30,7 @@ export default function UserProfile() {
     const [authorSearchDone, setAuthorSearchDone] = useState(false);
 
     const handleBack = () => {
-        router.push("/Screens/main");
+        router.push("/Screens/home");
     }
 
     const fetchUserProfileData = async () => {

@@ -17,13 +17,21 @@ export default function EditorToolbar({ onImageSelect }) {
         });
 
         if (!result.canceled) {
-            // For now, let's use a sample image URL
-            const imageURL = result.assets[0].uri
-            onImageSelect(imageURL);  // Insert the image at the cursor position
+            const imageUri = result.assets[0].uri;
+            const uriParts = imageUri.split('.');
+            const fileType = uriParts[uriParts.length - 1]; // Get the file extension
+
+            // Create a file from the image URI
+            const response = await fetch(imageUri);
+            const blob = await response.blob(); // Convert to blob
+            const file = new File([blob], `image.${fileType}`, { type: `image/${fileType}` });
+
+            onImageSelect(file);  // Pass the file to the parent function
         } else {
             alert('You did not select any image.');
         }
     };
+
 
     return (
         <View style={styles.tabContainer}>
