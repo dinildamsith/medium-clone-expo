@@ -25,9 +25,11 @@ export default function UserProfile() {
     const [authorSearchDone, setAuthorSearchDone] = useState(false)
     const [authorFollowersCount, setAuthorFollowersCount] = useState()
     const [authorFollowingsCount, setAuthorFollowingsCount] = useState()
-    const [authorFollowingButton, setAuthorFollowingButton] = useState<any>(null)
+    const [authorFollowingButton, setAuthorFollowingButton] = useState<any>(false)
     const [authorFollowers, setAuthorFollowers] = useState<any>([])
     const [userAllPost, setUserAllPost] = useState<any>()
+    const [followingSuccess, setFollowingSuccess] = useState<any>(false)
+    const [unFollowingSuccess, setUnFollowingSuccess] = useState<any>(false)
 
     const handleBack = () => {
         router.push("/Screens/main")
@@ -88,7 +90,11 @@ export default function UserProfile() {
         if (authorSearchDone) {
             followingButtonShow()
         }
-    }, [authorSearchDone]);
+
+        if (followingSuccess || unFollowingSuccess) {
+            searchUser().then(()=> console.log("done"))
+        }
+    }, [authorSearchDone,followingSuccess,unFollowingSuccess]);
 
 
     const formatCount = (count:any) => {
@@ -113,6 +119,7 @@ export default function UserProfile() {
             });
             if (response.status === 200 || 201){
                 alert("following success")
+                setFollowingSuccess(true)
             }
 
             console.log(response.data.message); // Output success message
@@ -133,6 +140,7 @@ export default function UserProfile() {
             });
             if (response.status === 200 || 201){
                 alert("user Unfollowing success")
+                setUnFollowingSuccess(true)
             }
 
             console.log(response.data.message); // Output success message
@@ -154,6 +162,8 @@ export default function UserProfile() {
             }
         }
     }
+
+
 
     return (
         <ScrollView style={styles.container}>
@@ -185,6 +195,7 @@ export default function UserProfile() {
                             <Text style={styles.stat}>{formatCount(authorFollowersCount)} Followers</Text>
                             <Text style={styles.stat}>{formatCount(authorFollowingsCount)} Following</Text>
                         </View>
+
 
                         {authorFollowingButton ? (
                            <>
