@@ -37,7 +37,7 @@ export default function Tab({ activeTab, setActiveTab }) {
 
             if (response.status === 200) {
                 console.log(response.data.userImage);
-                setProfilePic(response.data.userImage);
+                setProfilePic(response?.data.userImage);
                 setRetryCount(0); // Reset retry count on success
             } else {
                 console.log("Unexpected response status:", response.status);
@@ -90,7 +90,7 @@ export default function Tab({ activeTab, setActiveTab }) {
                 }}
                 style={styles.tab}>
                 <Image
-                    source={{ uri: profilePic }}
+                    source={{ uri:'https://cdn.vectorstock.com/i/1000v/74/56/blue-user-icon-vector-42797456.avif'}}
                     style={styles.accountImage}
                 />
             </TouchableOpacity>

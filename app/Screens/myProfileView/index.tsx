@@ -30,6 +30,7 @@ export default function MyProfile() {
 
 
         const response = await axios.get(SEARCH_USER_URL);
+        console.log(response)
         if (response.status === 201 || 200) {
             setUserName(response.data.userName);
             setProfilePic(response.data.userImage);
@@ -97,7 +98,7 @@ export default function MyProfile() {
                 <View style={styles.profileContainer}>
                     {/* Profile Picture and User Info */}
                     <View style={styles.userInfoContainer}>
-                        <Image source={{ uri: profilePic || 'https://cdn.vectorstock.com/i/1000v/74/56/blue-user-icon-vector-42797456.avif'}} style={styles.profilePicture} />
+                        <Image source={{ uri:'https://cdn.vectorstock.com/i/1000v/74/56/blue-user-icon-vector-42797456.avif'}} style={styles.profilePicture} />
                         <View style={styles.textContainer}>
                             <Text style={styles.username}>{userName}</Text>
                             <View style={styles.statsContainer}>
