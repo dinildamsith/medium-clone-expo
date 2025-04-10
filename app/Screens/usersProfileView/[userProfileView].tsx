@@ -120,8 +120,8 @@ export default function UserProfile() {
                     <View style={styles.textContainer}>
                         <Text style={styles.username}>{authorName}</Text>
                         <View style={styles.statsContainer}>
-                            <Text style={styles.stat}>{formatCount(authorFollowersCount)} Followers</Text>
-                            <Text style={styles.stat}>{formatCount(authorFollowingsCount)} Following</Text>
+                            {/*<Text style={styles.stat}>{formatCount(authorFollowersCount)} Followers</Text>*/}
+                            {/*<Text style={styles.stat}>{formatCount(authorFollowingsCount)} Following</Text>*/}
                         </View>
 
                         <TouchableOpacity

@@ -86,18 +86,22 @@ export default function CommentAddView() {
         postGet()
     }, []);
 
+
     return (
         <>
             <View style={{ flex: 1 }}>
                 {/* Header */}
                 <View style={{ flexDirection: 'row', alignItems: 'center', padding: 20, marginTop: 2 }}>
                     {/* Back Arrow Button */}
-                    <TouchableOpacity onPress={() => router.push("/Screens/articleReadView/"+commentAdd)} style={{ marginRight: 10 }}>
+                    <TouchableOpacity onPress={() =>
+                        // @ts-ignore
+                        router.push("/Screens/articleReadView/"+commentAdd)
+                    } style={{ marginRight: 10 }}>
                         <Ionicons name="arrow-back" size={24} color="black" />
                     </TouchableOpacity>
 
                     {/* Response Text */}
-                    <Text style={{ fontSize: 18, fontWeight: 'bold', flex: 1 }}>Response ({postComments.length})</Text>
+                    {/*<Text style={{ fontSize: 18, fontWeight: 'bold', flex: 1 }}>Response ({postComments.length})</Text>*/}
                 </View>
 
                 {/* Comments Section */}

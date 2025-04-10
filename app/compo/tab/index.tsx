@@ -61,7 +61,7 @@ export default function Tab({ activeTab, setActiveTab }) {
     };
 
     useEffect(() => {
-        searchUser();
+        searchUser().then(r => console.log(""));
     }, []);
 
 

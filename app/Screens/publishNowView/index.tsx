@@ -9,6 +9,7 @@ import {BASE_URL, POST_SAVE_URL} from "@/app/config/endPoints";
 import {useRouter} from "expo-router";
 
 
+
 export default function PublishNowView() {
 
     const router = useRouter();
@@ -16,6 +17,7 @@ export default function PublishNowView() {
     const { articleData, imageURL } = useContext(AppContext);
     const [articleTitle, setArticleTitle] = useState("");
     const [articleDesc, setArticleDesc] = useState("")
+
 
 
 

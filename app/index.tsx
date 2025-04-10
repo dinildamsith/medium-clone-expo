@@ -1,12 +1,20 @@
 import {View, Text, TouchableOpacity, ScrollView} from "react-native";
 import { Button } from 'react-native-paper';
 import {useRouter} from "expo-router";
-import {useFonts} from "expo-font";
 import {useEffect, useState} from "react";
 import {auth, provider, signInWithPopup} from "@/firebase";
 import {BASE_URL, CREATE_USER, SEARCH_USER} from "@/app/config/endPoints";
 import axios from "axios";
 import {jwtDecode} from "jwt-decode";
+import 'expo-dev-client'
+
+// import {GoogleSignin} from "@react-native-google-signin/google-signin";
+//
+//
+// GoogleSignin.configure({
+//     webClientId: 'YOUR_WEB_CLIENT_ID.apps.googleusercontent.com', // From Firebase console
+//     offlineAccess: true, // Get offline access if needed
+// });
 
 export default function SignIn() {
 
@@ -14,7 +22,6 @@ export default function SignIn() {
     const [error, setError] = useState(false);
     const [googleErrorMessage, setGoogleErrorMessage] = useState("");
     const [singInSuccess, setSignInSuccess] = useState(false)
-
 
     const handleSignInWithGoogle = async () => {
         try {
@@ -57,6 +64,10 @@ export default function SignIn() {
         }
     };
 
+
+    const handelLogin = () => {
+        router.push("/Screens/home")
+    }
 
     const createUser = async () => {
         // @ts-ignore
@@ -171,7 +182,7 @@ export default function SignIn() {
                         icon="facebook"
                         mode="outlined"
                         style={{ width: 300, marginTop: 10 }}
-                        onPress={() => console.log('Pressed')}
+                        onPress={() => handelLogin()}
                     >
                         Sign In With Facebook
                     </Button>

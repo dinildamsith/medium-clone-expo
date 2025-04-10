@@ -66,6 +66,7 @@ export default function MyProfile() {
     };
 
     const handelMyStoriesRead = (postId:any) =>{
+        // @ts-ignore
         router.push("/Screens/articleReadView/"+postId)
     }
 
@@ -100,8 +101,8 @@ export default function MyProfile() {
                         <View style={styles.textContainer}>
                             <Text style={styles.username}>{userName}</Text>
                             <View style={styles.statsContainer}>
-                                <Text style={styles.stat}>{formatCount(followers)} Followers</Text>
-                                <Text style={styles.stat}>{formatCount(following)} Following</Text>
+                                {/*<Text style={styles.stat}>{formatCount(followers)} Followers</Text>*/}
+                                {/*<Text style={styles.stat}>{formatCount(following)} Following</Text>*/}
                             </View>
                             <View style={styles.buttonContainer}>
                                 <TouchableOpacity style={styles.viewStatusButton}>

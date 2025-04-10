@@ -91,7 +91,7 @@ export default function PostView(props:any){
               {/* Left Side - Date and Icons */}
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                   {/* Date */}
-                  <Text style={{ fontSize: 16, color: 'black', marginRight: 10 }}>{formatDate(props.date)}</Text>
+                  {/*<Text style={{ fontSize: 16, color: 'black', marginRight: 10 }}>{formatDate(props.date)}</Text>*/}
 
                   {/* Hand Icon with Clap Count */}
                   <TouchableOpacity onPress={() => console.log("Hand icon clicked")}>

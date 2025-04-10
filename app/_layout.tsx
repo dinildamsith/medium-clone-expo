@@ -1,11 +1,11 @@
 import { Stack } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StyleSheet } from "react-native";
-import {AppContext, AppProvider} from "@/app/appProvider";
+
 
 export default function RootLayout() {
     return (
-        // <AppProvider> {/* Wrap the SafeAreaView with AppProvider */}
+        // w <AppProvider> {/* Wrap the SafeAreaView with AppProvider */}
             <SafeAreaView style={styles.safeArea}>
                 <Stack>
                     <Stack.Screen name="index" options={{ headerShown: false }} />

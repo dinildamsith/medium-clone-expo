@@ -45,6 +45,7 @@ export default function LikeCommentBookMarkTab(props: any) {
 
 
     const handelCommentPageNavigate = (postId:any) => {
+        // @ts-ignore
         navigation.push("/Screens/commentAddView/"+postId)
     }
 
@@ -112,12 +113,12 @@ export default function LikeCommentBookMarkTab(props: any) {
         <View style={styles.tabContainer}>
             <TouchableOpacity style={styles.tab}>
                 <FontAwesome name="hand-paper-o" size={24} color="black" />
-                <Text style={{ fontSize: 16, marginLeft: 5 }}>{props.postClaps || 0}</Text>
+                {/*<Text style={{ fontSize: 16, marginLeft: 5 }}>{props.postClaps || 0}</Text>*/}
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.centerTab} onPress={()=> handelCommentPageNavigate(props.postId)}>
                 <FontAwesome name="comment-o" size={24} color="black" />
-                <Text style={{ fontSize: 16, marginLeft: 5 }}>{props.comments || 0}</Text>
+                {/*<Text style={{ fontSize: 16, marginLeft: 5 }}>{props.comments || 0}</Text>*/}
             </TouchableOpacity>
 
             {userThisPostBookMark === "bookmarked" ? (
