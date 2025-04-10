@@ -1,11 +1,12 @@
 import { Stack } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StyleSheet } from "react-native";
+import { AppProvider } from "./appProvider";
 
 
 export default function RootLayout() {
     return (
-        // w <AppProvider> {/* Wrap the SafeAreaView with AppProvider */}
+         <AppProvider>
             <SafeAreaView style={styles.safeArea}>
                 <Stack>
                     <Stack.Screen name="index" options={{ headerShown: false }} />
@@ -22,7 +23,7 @@ export default function RootLayout() {
                     <Stack.Screen name="Screens/commentAddView/[commentAdd]" options={{ headerShown: false }} />
                 </Stack>
             </SafeAreaView>
-        // </AppProvider>
+        </AppProvider>
     );
 }
 
